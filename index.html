@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métodos Numéricos</title>
+    <link rel="stylesheet" href="resources/css/styles.css">
+    <link rel="stylesheet" href="resources/css/fonts.css">
+</head>
+<body class="light-mode" id="body">
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <div class="header-content">
+                <h1 class="header-title">IntegraX</h1>
+            </div>
+            <!-- Toggle Mode -->
+            <div class="toggle-container">
+                <span class="toggle-icon">🌞</span>
+                <button onclick="toggleMode()" class="toggle-button" id="toggleButton">
+                    <span class="toggle-circle" id="toggleCircle"></span>
+                </button>
+                <span class="toggle-icon">🌙</span>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="main-grid">
+            <!-- Sección de Input -->
+            <div class="input-section">
+                <label for="ecuacion" class="input-label">
+                    Ingrese su ecuación:
+                </label>
+                <input 
+                    type="text" 
+                    id="ecuacion" 
+                    placeholder="Ejemplo: x^2 - 4"
+                    class="equation-input"
+                >
+                <button onclick="procesarEcuacion()" class="process-button">
+                    Procesar
+                </button>
+            </div>
+
+            <!-- Sección de Imagen -->
+            <div class="image-section">
+                <img src="resources/imgs/fondo.png" alt="chico_estudiando">
+            </div>
+        </div>
+
+        <!-- Tabla de resultados -->
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table class="results-table">
+                    <thead>
+                        <tr class="table-header">
+                            <th class="table-th">n</th>
+                            <th class="table-th">i</th>
+                            <th class="table-th">x0</th>
+                            <th class="table-th">xi</th>
+                            <th class="table-th">f(x0)</th>
+                            <th class="table-th">f(xi)</th>
+                            <th class="table-th">xi+1</th>
+                            <th class="table-th">f(xi+1)</th>
+                            <th class="table-th">error</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaResultados">
+                        <tr class="table-row">
+                            <td class="table-td">1</td>
+                            <td class="table-td">0</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-td">2</td>
+                            <td class="table-td">1</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                        </tr>
+                        <tr class="table-row">
+                            <td class="table-td">3</td>
+                            <td class="table-td">2</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                            <td class="table-td">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-main">
+                Programado por Lenny Adrián Elías Sánchez
+            </p>
+            <p class="footer-subject">Métodos numéricos</p>
+            <p class="footer-copyright">Copyright 2025</p>
+        </div>
+    </footer>
+</html>
