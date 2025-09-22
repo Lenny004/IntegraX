@@ -8,9 +8,8 @@ app = Flask(__name__)
 # llamar a la función que le sigue
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>Hello, World, como estás lenny adrian!</p>"
 
 # Esta es la función principal que ejecuta el servidor
-# Solo se ejecuta si el script se corre directamente
 if __name__ == "__main__":
     app.run(debug=True)
