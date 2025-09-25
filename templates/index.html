@@ -40,14 +40,13 @@
                 <label for="metodo" class="input-section__label">
                     Seleccione el método numérico:
                 </label>
-                <select id="metodo" class="form-control" onchange="mostrarParametros()">
+                <select id="metodo" class="form-control" onchange="headerTabla(this.value)">
                     <option value="">Seleccione un método</option>
-                    <option value="biseccion">Método de Bisección</option>
-                    <option value="regla_falsa">Método de Regla Falsa</option>
-                    <option value="secante">Método de la Secante</option>
+                    <option value="1">Método de Bisección</option>
+                    <option value="2">Método de Regla Falsa</option>
+                    <option value="3">Método de la Secante</option>
                 </select>
-
-                <div id="parametros" class="parameters">
+                <div class="parameters">
                     <div class="parameters__group">
                         <div class="parameters__field">
                             <label class="input-section__label">Valor inicial x0:</label>
@@ -69,7 +68,6 @@
                         </div>
                     </div>
                 </div>
-
                 <button onclick="procesarEcuacion()" class="button button--full">
                     Procesar
                 </button>
@@ -85,53 +83,11 @@
         <div class="results-table">
             <div class="results-table__wrapper">
                 <table class="results-table__table">
-                    <thead>
-                        <tr class="results-table__header">
-                            <th class="results-table__th">n</th>
-                            <th class="results-table__th">i</th>
-                            <th class="results-table__th">x0</th>
-                            <th class="results-table__th">xi</th>
-                            <th class="results-table__th">f(x0)</th>
-                            <th class="results-table__th">f(xi)</th>
-                            <th class="results-table__th">xi+1</th>
-                            <th class="results-table__th">f(xi+1)</th>
-                            <th class="results-table__th">error</th>
-                        </tr>
+                    <thead id="headerResultados">
+
                     </thead>
                     <tbody id="tablaResultados">
-                        <tr class="results-table__row">
-                            <td class="results-table__td">1</td>
-                            <td class="results-table__td">0</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                        </tr>
-                        <tr class="results-table__row">
-                            <td class="results-table__td">2</td>
-                            <td class="results-table__td">1</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                        </tr>
-                        <tr class="results-table__row">
-                            <td class="results-table__td">3</td>
-                            <td class="results-table__td">2</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                            <td class="results-table__td">-</td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
