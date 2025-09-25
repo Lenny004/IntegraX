@@ -31,16 +31,16 @@
     <main class="main">
         <div class="main__grid">
             <!-- Input Section -->
-            <div class="input-section">
+            <form class="input-section">
                 <label for="ecuacion" class="input-section__label">
                     Ingrese su ecuación:
                 </label>
-                <input type="text" id="ecuacion" placeholder="Ejemplo: x^2 - 4" class="form-control">
+                <input type="text" id="ecuacion" placeholder="Ejemplo: x^2 - 4" class="form-control" required>
 
                 <label for="metodo" class="input-section__label">
                     Seleccione el método numérico:
                 </label>
-                <select id="metodo" class="form-control" onchange="headerTabla(this.value)">
+                <select id="metodo" class="form-control" onchange="headerTabla(this.value)" required>
                     <option value="">Seleccione un método</option>
                     <option value="1">Método de Bisección</option>
                     <option value="2">Método de Regla Falsa</option>
@@ -49,18 +49,18 @@
                 <div class="parameters">
                     <div class="parameters__group">
                         <div class="parameters__field">
-                            <label class="input-section__label">Valor inicial x0:</label>
-                            <input type="number" id="x0" value="0" step="0.1" class="form-control">
+                            <label class="input-section__label">Rango inicial a:</label>
+                            <input type="number" id="a" value="0" step="0.1" class="form-control" required>
                         </div>
                         <div class="parameters__field">
-                            <label class="input-section__label">Valor inicial x1:</label>
-                            <input type="number" id="x1" value="1" step="0.1" class="form-control">
+                            <label class="input-section__label">Rango inicial b:</label>
+                            <input type="number" id="b" value="1" step="0.1" class="form-control" required>
                         </div>
                     </div>
                     <div class="parameters__group">
                         <div class="parameters__field">
                             <label class="input-section__label">Criterio de error:</label>
-                            <select id="criterio" class="form-control">
+                            <select id="criterio" class="form-control" required>
                                 <option value="1">|xi+1 - xi|</option>
                                 <option value="2">|xi+1 - xi| / |xi+1|</option>
                                 <option value="3">|f(xi+1)|</option>
@@ -68,10 +68,10 @@
                         </div>
                     </div>
                 </div>
-                <button onclick="procesarEcuacion()" class="button button--full">
+                <button type="button" onclick="procesarEcuacion()" class="button button--full">
                     Procesar
                 </button>
-            </div>
+            </form>
 
             <!-- Image Section -->
             <div class="image-section">
