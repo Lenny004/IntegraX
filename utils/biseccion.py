@@ -31,9 +31,9 @@ def metodo_biseccion(ecuacion, a, b, tolerancia, max_iter, criterio):
         xi = (x0 + x1) / 2
 
         # Evaluar función en los puntos
-        f_x0 = evaluar_funcion(ecuacion, x0)
-        f_x1 = evaluar_funcion(ecuacion, x1)
-        f_xi = evaluar_funcion(ecuacion, xi)
+        f_x0 = evaluar_funcion(ecuacion, x0)  # f(extremo izquierdo)
+        f_x1 = evaluar_funcion(ecuacion, x1)  # f(extremo derecho)
+        f_xi = evaluar_funcion(ecuacion, xi)  # f(punto medio)
 
         # Calcular error
         if i > 0:
@@ -62,7 +62,7 @@ def metodo_biseccion(ecuacion, a, b, tolerancia, max_iter, criterio):
         if error != "N/A" and error < tolerancia and i > 0:
             break
 
-        # Determinar nuevo intervalo - AQUÍ ESTABA EL ERROR
+        # Determinar nuevo intervalo
         if f_x0 * f_xi < 0:
             # La raíz está en [x0, xi]
             x1 = xi  # Actualizamos el extremo derecho

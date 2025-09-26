@@ -99,6 +99,7 @@ def formato6(num):
 
     # Convertir la parte decimal a string con 6 decimales
     dec_mult = round(decimal * 1000000)
+    #.zfill(6) rellena el string con 0 a la izquierda hasta una longitud total de 6
     dec_str = str(dec_mult).zfill(6)
 
     if num < 0 and entero == 0:
