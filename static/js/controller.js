@@ -74,10 +74,23 @@ function llenarTabla(resultados) {
                 <td class="results-table__td">${resultado['xi']}</td>
                 <td class="results-table__td">${resultado['f(xi)']}</td>
                 <td class="results-table__td">${resultado.error}</td>
-            `;
-            tbody.appendChild(fila);
+                `;
+                break;
+            case 3:
+                fila.innerHTML = `
+                <td class="results-table__td">${resultado.n}</td>
+                <td class="results-table__td">${resultado.i}</td>
+                <td class="results-table__td">${resultado['x0']}</td>
+                <td class="results-table__td">${resultado['xi']}</td>
+                <td class="results-table__td">${resultado['f(x0)']}</td>
+                <td class="results-table__td">${resultado['f(xi)']}</td>
+                <td class="results-table__td">${resultado['xi+1']}</td>
+                <td class="results-table__td">${resultado['f(xi+1)']}</td>
+                <td class="results-table__td">${resultado.error}</td>
+                `;
                 break;
         }
+        tbody.appendChild(fila);
     });
 }
 
@@ -124,7 +137,7 @@ async function procesarEcuacion() {
         };
 
         // Hacer petición al backend
-        const response = await fetch('/api/calcular', {
+        const response = await fetch('/calcular', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

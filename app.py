@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 # Importar nuestros módulos separados
-from utils import metodo_biseccion#, metodo_regla_falsa, metodo_secante
+from utils import metodo_biseccion, metodo_regla_falsa, metodo_secante
 
 # Crea una instancia de la clase Flask
 # que se convertirá en nuestra aplicación WSGI
@@ -18,7 +18,7 @@ def home():
     # dentro de la carpeta 'templates'
     return render_template('index.html')
 
-@app.route('/api/calcular', methods=['POST'])
+@app.route('/calcular', methods=['POST'])
 def calcular_metodo():
     try:
         data = request.get_json()
@@ -42,10 +42,10 @@ def calcular_metodo():
         match metodo:
             case 1:
                 resultados = metodo_biseccion(ecuacion, a, b, tolerancia, max_iter, criterio)
-            #case 2:
-                # resultados = metodo_regla_falsa(ecuacion, a, b, tolerancia, max_iter, criterio)
-            #case 3:
-                # resultados = metodo_secante(ecuacion, a, b, tolerancia, max_iter, criterio)
+            case 2:
+                resultados = metodo_regla_falsa(ecuacion, a, b, tolerancia, max_iter, criterio)
+            case 3:
+                resultados = metodo_secante(ecuacion, a, b, tolerancia, max_iter, criterio)
             case _:
                 return jsonify({'error': 'Método no reconocido'}), 400
 
