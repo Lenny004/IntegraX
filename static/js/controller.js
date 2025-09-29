@@ -1,3 +1,94 @@
+// Función para mostrar modal con diferentes tipos
+function mostrarModal(titulo, mensaje, tipo = 'information') {
+    const modal = document.getElementById('modal');
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalTitle = document.getElementById('modal__header-title');
+    const modalText = document.getElementById('modal-text');
+    const modalIcon = document.getElementById('modal-icon');
+
+    // Verificar que los elementos existan
+    if (!modal || !modalOverlay || !modalTitle || !modalText || !modalIcon) {
+        console.error('No se encontraron los elementos del modal');
+        alert(titulo + ': ' + mensaje);
+        return;
+    }
+
+    const modalIconImg = modalIcon.querySelector('img');
+
+    // Configurar título y mensaje
+    modalTitle.textContent = titulo;
+    modalText.textContent = mensaje;
+
+    // Remover todas las clases de tipo anteriores
+    modalIcon.classList.remove('information', 'warning', 'danger', 'correct');
+
+    // Configurar icono y clase según el tipo
+    let iconPath = '';
+    switch (tipo) {
+        case 'error':
+        case 'danger':
+            iconPath = '../static/imgs/icons/error.png';
+            modalIcon.classList.add('danger');
+            break;
+        case 'warning':
+            iconPath = '../static/imgs/icons/warning.png';
+            modalIcon.classList.add('warning');
+            break;
+        case 'correct':
+        case 'success':
+            iconPath = '../static/imgs/icons/correct.png';
+            modalIcon.classList.add('correct');
+            break;
+        case 'information':
+        default:
+            iconPath = '../static/imgs/icons/information.png';
+            modalIcon.classList.add('information');
+            break;
+    }
+
+    modalIconImg.src = iconPath;
+    modalIconImg.alt = tipo;
+
+    // Mostrar modal y overlay
+    modal.classList.add('show');
+    modalOverlay.classList.add('show');
+}
+
+// Función para cerrar modal
+function closeModal() {
+    const modal = document.getElementById('modal');
+    const modalOverlay = document.getElementById('modal-overlay');
+
+    modal.classList.remove('show');
+    modalOverlay.classList.remove('show');
+}
+
+// Cerrar modal al hacer clic en el overlay
+const overlay = document.getElementById('modal-overlay');
+if (overlay) {
+    overlay.addEventListener('click', closeModal);
+}
+
+// Función para mostrar error (actualizada)
+function mostrarError(mensaje) {
+    mostrarModal('Error', mensaje, 'error');
+}
+
+// Función para mostrar advertencia
+function mostrarAdvertencia(mensaje) {
+    mostrarModal('Advertencia', mensaje, 'warning');
+}
+
+// Función para mostrar información
+function mostrarInformacion(mensaje) {
+    mostrarModal('Información', mensaje, 'information');
+}
+
+// Función para mostrar éxito
+function mostrarExito(mensaje) {
+    mostrarModal('Éxito', mensaje, 'correct');
+}
+
 function toggleMode() {
     const theme = document.getElementById('theme');
     const toggleButton = document.getElementById('toggleButton');
@@ -18,8 +109,10 @@ function toggleMode() {
 
 function headerTabla(e) {
     const THEADER = document.getElementById('headerResultados');
+    const tbody = document.getElementById('tablaResultados');
+    tbody.innerHTML = '';
     let header = '';
-    switch (parseInt(e)){
+    switch (parseInt(e)) {
         case 1:
         case 2:
             header =
@@ -55,16 +148,22 @@ function headerTabla(e) {
 // Función para llenar la tabla con resultados
 function llenarTabla(resultados) {
     const tbody = document.getElementById('tablaResultados');
+    const it = document.getElementById('iterations');
+    const result = document.getElementById('result');
+    it.classList.remove('visually-hidden');
+    result.classList.remove('visually-hidden');
     let metodo = document.getElementById('metodo').value;
     tbody.innerHTML = '';
 
     resultados.forEach(resultado => {
         const fila = document.createElement('tr');
         fila.className = 'results-table__row';
+        it.innerHTML = "La iteración converge en " + resultado.n + " iteraciones";
 
-        switch (parseInt(metodo)){
+        switch (parseInt(metodo)) {
             case 1:
             case 2:
+                result.innerHTML = "La raiz de aproximada es xi = " + resultado.xi;
                 fila.innerHTML = `
                 <td class="results-table__td">${resultado.n}</td>
                 <td class="results-table__td">${resultado.a}</td>
@@ -77,6 +176,7 @@ function llenarTabla(resultados) {
                 `;
                 break;
             case 3:
+                result.innerHTML = "La raiz de aproximada es xi + i = " + resultado['xi+1'];
                 fila.innerHTML = `
                 <td class="results-table__td">${resultado.n}</td>
                 <td class="results-table__td">${resultado.i}</td>
@@ -110,12 +210,12 @@ async function procesarEcuacion() {
     }
 
     if (!metodo) {
-        mostrarError('Debe seleccionar un método');
+        mostrarAdvertencia('Debe seleccionar un método');
         return;
     }
 
     if (!criterio) {
-        mostrarError('Debe seleccionar un criterio de error');
+        mostrarAdvertencia('Debe seleccionar un criterio de error');
         return;
     }
 
@@ -132,8 +232,8 @@ async function procesarEcuacion() {
             a: a,
             b: b,
             criterio: criterio,
-            tolerancia: 1e-6,  // Valor por defecto
-            max_iter: 100     // Valor por defecto
+            tolerancia: 1e-6,
+            max_iter: 100
         };
 
         // Hacer petición al backend
@@ -155,8 +255,8 @@ async function procesarEcuacion() {
             // Llenar tabla con resultados
             llenarTabla(resultado.resultados);
 
-            // Mostrar mensaje de éxito (opcional)
-            console.log(`Método ${resultado.metodo} completado exitosamente`);
+            // Mostrar mensaje de éxito
+            mostrarExito(`Método completado exitosamente`);
         } else {
             throw new Error(resultado.error || 'Error desconocido');
         }
@@ -168,13 +268,8 @@ async function procesarEcuacion() {
     }
 }
 
-// Función para mostrar mensajes de error
-function mostrarError(mensaje) {
-    alert('Error: ' + mensaje);
-}
-
 // Función para limpiar la tabla
 function limpiarTabla() {
     const tbody = document.getElementById('tablaResultados');
-    tbody.innerHTML = ``;
+    tbody.innerHTML = '';
 }

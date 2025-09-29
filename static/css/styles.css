@@ -1,5 +1,6 @@
 :root {
     --color-grey: #666;
+    --color-grey-light: #e6e6e6;
     --color-purple: #393a57;
     --color-light-purple: #5A5D81;
     --color-red: #CB696A;
@@ -424,5 +425,29 @@ select {
     flex-direction: inherit;
     align-items: center;
     text-align: center;
+    color: var(--color-grey);
     gap: 1rem;
+}
+
+.modal__body-actions .cancel-button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0.8rem 5rem;
+    background-color: transparent;
+    border-radius: 10px;
+    border: 1px var(--color-grey-light) solid;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal__body-actions button:hover{
+    background-color: var(--color-grey-light);
+}
+
+.theme--dark #modal__header-title{
+    color: var(--color-dark);
+}
+
+.visually-hidden{
+    visibility: hidden;
 }

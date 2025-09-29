@@ -10,7 +10,7 @@
 </head>
 
 <body class="theme theme--light" id="theme">
-    <div id="modal-overlay" class="modal-overlay show"></div>
+    <div id="modal-overlay" class="modal-overlay"></div>
     <!-- Header -->
     <header class="header">
         <div class="header__container">
@@ -28,19 +28,19 @@
         </div>
     </header>
     <!-- Modal -->
-    <div id="modal" class="modal show">
+    <div id="modal" class="modal">
         <div class="modal__header">
-            <div class="modal__header-icon danger">
+            <div class="modal__header-icon danger" id="modal-icon">
                 <img src="../static/imgs/icons/warning.png" alt="icon">
             </div>
-            <h3 id="modal__header-title" id="modal-title">Error de ecuación</h3>
+            <h3 id="modal__header-title">Titulo</h3>
         </div>
         <div class="modal__body">
             <div class="modal__body-content">
-                <p id="modal-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ex aut quidem repellendus quas iste recusandae facere delectus numquam dolorem illo sequi id, at illum aliquam quaerat commodi quis. Quidem!</p>
+                <p id="modal-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             </div>
             <div class="modal__body-actions">
-                <button type="button" class="cancel-button">Cancel</button>
+                <button type="button" class="cancel-button" onclick="closeModal()">Aceptar</button>
             </div>
         </div>
     </div>
@@ -95,7 +95,8 @@
                 <img src="../static/imgs/fondo.png" alt="chico_estudiando" class="image-section__img">
             </div>
         </div>
-
+        <p id="iterations" class="visually-hidden"></p>
+        <p id="result" class="visually-hidden"></p>
         <!-- Results Table -->
         <div class="results-table">
             <div class="results-table__wrapper">
