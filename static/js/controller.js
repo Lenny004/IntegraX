@@ -108,7 +108,7 @@ function toggleMode() {
 }
 
 function headerTabla(e) {
-    const THEADER = document.getElementById('headerResultados');
+    const theader = document.getElementById('headerResultados');
     const tbody = document.getElementById('tablaResultados');
     tbody.innerHTML = '';
     let header = '';
@@ -142,7 +142,7 @@ function headerTabla(e) {
                 </tr>`;
             break;
     }
-    THEADER.innerHTML = header;
+    theader.innerHTML = header;
 }
 
 // Función para llenar la tabla con resultados
