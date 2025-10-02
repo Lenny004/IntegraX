@@ -1,0 +1,453 @@
+:root {
+    --color-grey: #666;
+    --color-grey-light: #e6e6e6;
+    --color-purple: #393a57;
+    --color-light-purple: #5A5D81;
+    --color-red: #CB696A;
+    --color-light: #F2F5FC;
+    --color-dark: #1a1a2e;
+    --color-dark-secondary: #2d2d44;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Theme */
+.theme {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.theme--light {
+    background-color: var(--color-light);
+    color: #333;
+}
+
+.theme--dark {
+    background-color: var(--color-dark);
+    color: #ffffff;
+}
+
+/* Header */
+.header {
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.theme--dark .header {
+    background-color: var(--color-dark-secondary);
+}
+
+.header__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.theme--dark .header__title {
+    color: white;
+}
+
+/* Toggle */
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.toggle__icon {
+    font-size: 0.875rem;
+    color: var(--color-grey);
+}
+
+.theme--dark .toggle__icon {
+    color: #ccc;
+}
+
+.toggle__button {
+    position: relative;
+    display: inline-flex;
+    height: 1.5rem;
+    width: 2.75rem;
+    align-items: center;
+    border-radius: 9999px;
+    background-color: #d1d5db;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.toggle__button:focus {
+    box-shadow: 0 0 0 2px var(--color-purple);
+}
+
+.toggle__button--active {
+    background-color: var(--color-purple);
+}
+
+.toggle__circle {
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    background-color: white;
+    transition: transform 0.3s ease;
+    transform: translateX(0.25rem);
+}
+
+.toggle__circle--active {
+    transform: translateX(1.5rem);
+}
+
+/* Main */
+.main {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    width: 100%;
+}
+
+.main__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .main__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Input Section */
+.input-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.input-section__label {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.theme--dark .input-section__label {
+    color: white;
+}
+
+/* Form Controls */
+.form-control {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1.125rem;
+    border: none;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+    background-color: white;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.form-control--small {
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.theme--dark .form-control {
+    border-color: #4b5563;
+    background-color: #374151;
+    color: white;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--color-purple);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Button */
+.button {
+    background-color: var(--color-purple);
+    color: white;
+    font-weight: 500;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    border: 0;
+    font-size: 1.125rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button--full {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.button:hover {
+    background-color: var(--color-light-purple);
+}
+
+/*Select*/
+select {
+    appearance: none;
+    background-image: url('../imgs/icons/arrow.png');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px;
+    padding-right: 30px;
+}
+
+/* Parameters */
+.parameters {
+    margin-top: 1rem;
+    border-radius: 10px;
+}
+
+.parameters__group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.parameters__field {
+    flex: 1;
+    min-width: 120px;
+}
+
+/* Image Section */
+.image-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-section__img {
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Results Table */
+.results-table {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.theme--dark .results-table {
+    background-color: var(--color-dark-secondary);
+}
+
+.results-table__wrapper {
+    overflow-x: auto;
+}
+
+.results-table__table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results-table__header {
+    background-color: var(--color-purple);
+    color: white;
+}
+
+.results-table__th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 500;
+}
+
+.results-table__row {
+    transition: background-color 0.2s ease;
+}
+
+.results-table__row:hover {
+    background-color: var(--color-red);
+}
+
+.theme--dark .results-table__row:hover {
+    background-color: #4c1d95;
+}
+
+.results-table__td {
+    padding: 0.75rem 1rem;
+    color: #333;
+}
+
+.theme--dark .results-table__td {
+    color: #e5e7eb;
+}
+
+/* Footer */
+.footer {
+    background-color: #374151;
+    color: white;
+    margin-top: 2rem;
+}
+
+.footer__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.footer__title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.footer__subtitle {
+    color: #d1d5db;
+    margin-bottom: 0.5rem;
+}
+
+.footer__copyright {
+    color: #9ca3af;
+    font-size: 0.875rem;
+}
+
+/* Modal */
+.modal-overlay {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 4;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -60%);
+    transition: all 0.4s ease;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 18rem;
+    max-width: 45rem;
+    max-height: 80vh;
+    padding: 18px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0rem 0.2rem 0.8rem 0rem;
+    border-radius: 1.2rem;
+    background-color: var(--color-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    gap: 1rem;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%);
+}
+
+.modal__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.modal .modal__header-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.modal .modal__header-icon.information{
+    background-color: #d8dcfb;
+}
+
+.modal .modal__header-icon.warning{
+    background-color: #fffeef;
+}
+
+.modal .modal__header-icon.danger{
+    background-color: #fee2e1;
+}
+
+.modal .modal__header-icon.correct{
+    background-color: #EBFAEF;
+}
+
+.modal .modal__body {
+    display: inherit;
+    flex-direction: inherit;
+    align-items: center;
+    text-align: center;
+    color: var(--color-grey);
+    gap: 1rem;
+}
+
+.modal__body-actions .cancel-button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0.8rem 5rem;
+    background-color: transparent;
+    border-radius: 10px;
+    border: 1px var(--color-grey-light) solid;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal__body-actions button:hover{
+    background-color: var(--color-grey-light);
+}
+
+.theme--dark #modal__header-title{
+    color: var(--color-dark);
+}
+
+.visually-hidden{
+    visibility: hidden;
+}
