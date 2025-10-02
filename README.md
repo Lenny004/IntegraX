@@ -7,6 +7,9 @@
 
 > **IntegraX** es una aplicación web interactiva diseñada para facilitar el aprendizaje y la práctica de métodos numéricos. Permite encontrar raíces de ecuaciones mediante diferentes métodos iterativos, mostrando paso a paso el proceso de convergencia.
 
+<img width="2560" height="1432" alt="Captura1" src="https://github.com/user-attachments/assets/87e1aa07-4d7c-4430-919e-16c83f9f5bb9" />
+
+
 ## 📋 Tabla de Contenidos
 
 - [Características](#-características)
@@ -89,6 +92,9 @@
 - Paleta de colores optimizada para trabajo nocturno
 - Menor fatiga visual
 - Transición suave entre modos
+
+<img width="2560" height="1438" alt="Captura2" src="https://github.com/user-attachments/assets/c445157a-807e-410d-bee2-0785fe5d9d7f" />
+
 
 ## 🧮 Métodos implementados
 
