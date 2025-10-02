@@ -513,7 +513,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy...
 
 **Lenny Adrián Elías Sánchez**
 - 📧 Email: lennyx75@gmail.com
-- 🐱 GitHub: [@lenny-elias](https://github.com/tu-usuario)
+- 🐱 GitHub: [@Lenny Sánchez](https://github.com/Lenny004)
 
 ## 🙏 Agradecimientos
 
