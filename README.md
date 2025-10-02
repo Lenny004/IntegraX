@@ -517,7 +517,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy...
 
 ## 🙏 Agradecimientos
 
-- A mi profesor de Métodos Numéricos por la inspiración y su forma única de enseñar.
+- A mi profesor de Métodos Numéricos Master Ramón Gomez por la inspiración y su forma única de enseñar.
 - A la comunidad de Python y Flask por sus excelentes herramientas.
 
 ## 📚 Referencias
