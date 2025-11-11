@@ -12,9 +12,13 @@
 
 <body class="theme theme--light" id="theme">
     <div id="modal-overlay" class="modal-overlay"></div>
+    <div id="overlay" class="overlay"></div>
     <!-- Header -->
     <header class="header">
         <div class="header__container">
+            <div class="menu-icon">
+                <img src="http://localhost/resources/icons/menu.png" alt="menu" class="menu">
+            </div>
             <div class="header__content">
                 <h1 class="header__title">IntegraX</h1>
             </div>
@@ -25,6 +29,12 @@
                     <li class="navbar__item"><a href="#!" class="navbar__link">Aprende</a></li>
                 </ul>
             </nav>
+            <div id="sidenav" class="sidenav" aria-hidden="true">
+                <span class="closebtn" role="button" tabindex="0" aria-label="Cerrar menú" onclick="closeSidenav()">×</span>
+                <a href="#">Inicio</a>
+                <a href="">Comparador</a>
+                <a href="">Aprende</a>
+            </div>
             <!-- Toggle Mode -->
             <div class="toggle">
                 <span class="toggle__icon">☀️</span>

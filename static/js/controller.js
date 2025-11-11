@@ -17,7 +17,112 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.actualizarTemaGraficas) {
         actualizarTemaGraficas();
     }
+
+    inicializarSidenav();
 });
+
+function openSidenav() {
+    const sidenav = document.getElementById('sidenav');
+    const overlay = document.getElementById('overlay');
+    const menuIcon = document.querySelector('.menu-icon');
+
+    if (!window.matchMedia('(max-width: 768px)').matches) {
+        return;
+    }
+
+    if (!sidenav || !overlay) {
+        return;
+    }
+
+    sidenav.classList.add('show');
+    sidenav.setAttribute('aria-hidden', 'false');
+
+    overlay.classList.add('show');
+    overlay.style.display = 'block';
+
+    if (menuIcon) {
+        menuIcon.setAttribute('aria-expanded', 'true');
+    }
+}
+
+function closeSidenav() {
+    const sidenav = document.getElementById('sidenav');
+    const overlay = document.getElementById('overlay');
+    const menuIcon = document.querySelector('.menu-icon');
+
+    if (sidenav) {
+        sidenav.classList.remove('show');
+        sidenav.setAttribute('aria-hidden', 'true');
+    }
+
+    if (overlay) {
+        overlay.classList.remove('show');
+        overlay.style.display = 'none';
+    }
+
+    if (menuIcon) {
+        menuIcon.setAttribute('aria-expanded', 'false');
+    }
+}
+
+function handleResponsiveNavigation() {
+    const menuIcon = document.querySelector('.menu-icon');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    if (!isMobile) {
+        closeSidenav();
+    }
+
+    if (menuIcon) {
+        menuIcon.setAttribute('aria-hidden', (!isMobile).toString());
+        menuIcon.tabIndex = isMobile ? 0 : -1;
+    }
+}
+
+function inicializarSidenav() {
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidenavOverlay = document.getElementById('overlay');
+    const closeButton = document.querySelector('#sidenav .closebtn');
+
+    if (menuIcon) {
+        menuIcon.setAttribute('role', 'button');
+        menuIcon.setAttribute('aria-controls', 'sidenav');
+        menuIcon.setAttribute('aria-expanded', 'false');
+        menuIcon.setAttribute('aria-label', 'Abrir menú lateral');
+        menuIcon.tabIndex = -1;
+
+        menuIcon.addEventListener('click', openSidenav);
+        menuIcon.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openSidenav();
+            }
+        });
+    }
+
+    if (sidenavOverlay) {
+        sidenavOverlay.addEventListener('click', closeSidenav);
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener('click', closeSidenav);
+        closeButton.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                closeSidenav();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            closeSidenav();
+        }
+    });
+
+    handleResponsiveNavigation();
+    window.addEventListener('resize', handleResponsiveNavigation);
+}
 
 function formatearNumero(valor) {
     return typeof valor === 'number' && Number.isFinite(valor)
@@ -215,9 +320,9 @@ function closeModal() {
 }
 
 // Cerrar modal al hacer clic en el overlay
-const overlay = document.getElementById('modal-overlay');
-if (overlay) {
-    overlay.addEventListener('click', closeModal);
+const modalOverlayElement = document.getElementById('modal-overlay');
+if (modalOverlayElement) {
+    modalOverlayElement.addEventListener('click', closeModal);
 }
 
 // Función para mostrar error (actualizada)
