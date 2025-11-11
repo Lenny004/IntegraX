@@ -1,3 +1,270 @@
+let graficoFuncion = null;
+let graficoConvergencia = null;
+let estadoGraficas = {
+    ecuacion: '',
+    puntosFuncion: [],
+    convergencia: [],
+};
+
+function formatearNumero(valor) {
+    return typeof valor === 'number' && Number.isFinite(valor)
+        ? valor.toFixed(6)
+        : 'N/D';
+}
+
+function obtenerColoresGraficas() {
+    const theme = document.getElementById('theme');
+    const esOscuro = theme && theme.classList.contains('theme--dark');
+    return {
+        texto: esOscuro ? '#f3f4f6' : '#1f2937',
+        grid: esOscuro ? 'rgba(243, 244, 246, 0.15)' : 'rgba(31, 41, 55, 0.1)',
+        funcion: '#2563eb',
+        puntos: '#f97316',
+        aproximacion: '#10b981',
+        error: '#ef4444'
+    };
+}
+
+function limpiarGraficas() {
+    if (graficoFuncion) {
+        graficoFuncion.destroy();
+        graficoFuncion = null;
+    }
+    if (graficoConvergencia) {
+        graficoConvergencia.destroy();
+        graficoConvergencia = null;
+    }
+}
+
+function actualizarGraficas(ecuacion, puntosFuncion = [], convergencia = []) {
+    estadoGraficas = {
+        ecuacion,
+        puntosFuncion: Array.isArray(puntosFuncion) ? puntosFuncion.slice() : [],
+        convergencia: Array.isArray(convergencia) ? convergencia.slice() : [],
+    };
+
+    const colores = obtenerColoresGraficas();
+    const canvasFuncion = document.getElementById('chart-funcion');
+    const canvasConvergencia = document.getElementById('chart-convergencia');
+
+    if (canvasFuncion && window.Chart) {
+        const contextoFuncion = canvasFuncion.getContext('2d');
+        if (graficoFuncion) {
+            graficoFuncion.destroy();
+        }
+
+        const datosFuncion = puntosFuncion.map(punto => ({
+            x: punto.x,
+            y: typeof punto.y === 'number' && Number.isFinite(punto.y) ? punto.y : null,
+        }));
+
+        const datosAproximaciones = convergencia
+            .filter(item => typeof item.aproximacion === 'number' && typeof item.f_aproximacion === 'number')
+            .map(item => ({
+                x: item.aproximacion,
+                y: item.f_aproximacion,
+                iteracion: item.iteracion,
+            }));
+
+        graficoFuncion = new Chart(contextoFuncion, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: `f(x) = ${ecuacion}`,
+                        data: datosFuncion,
+                        showLine: true,
+                        borderColor: colores.funcion,
+                        backgroundColor: 'transparent',
+                        pointRadius: 0,
+                        spanGaps: true,
+                        borderWidth: 2,
+                    },
+                    {
+                        label: 'Aproximaciones',
+                        data: datosAproximaciones,
+                        showLine: false,
+                        borderColor: colores.puntos,
+                        backgroundColor: colores.puntos,
+                        pointRadius: 4,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'nearest',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: colores.texto,
+                        },
+                    },
+                    title: {
+                        display: true,
+                        text: 'Gráfica de la función',
+                        color: colores.texto,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label(context) {
+                                const punto = context.raw;
+                                if (context.datasetIndex === 1 && punto) {
+                                    const x = formatearNumero(punto.x);
+                                    const y = formatearNumero(punto.y);
+                                    return `Iteración ${punto.iteracion}: (${x}, ${y})`;
+                                }
+                                const x = formatearNumero(context.parsed.x);
+                                const y = formatearNumero(context.parsed.y);
+                                return `(${x}, ${y})`;
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        ticks: { color: colores.texto },
+                        grid: { color: colores.grid },
+                        title: {
+                            display: true,
+                            text: 'x',
+                            color: colores.texto,
+                        },
+                    },
+                    y: {
+                        ticks: { color: colores.texto },
+                        grid: { color: colores.grid },
+                        title: {
+                            display: true,
+                            text: 'f(x)',
+                            color: colores.texto,
+                        },
+                    },
+                },
+            },
+        });
+    }
+
+    if (canvasConvergencia && window.Chart) {
+        const contextoConvergencia = canvasConvergencia.getContext('2d');
+        if (graficoConvergencia) {
+            graficoConvergencia.destroy();
+        }
+
+        const datosAproximacionesIteracion = convergencia
+            .filter(item => typeof item.aproximacion === 'number')
+            .map(item => ({ x: item.iteracion, y: item.aproximacion }));
+
+        const datosErrores = convergencia
+            .filter(item => typeof item.error === 'number' && item.error > 0)
+            .map(item => ({ x: item.iteracion, y: item.error }));
+
+        graficoConvergencia = new Chart(contextoConvergencia, {
+            type: 'line',
+            data: {
+                datasets: [
+                    {
+                        label: 'Aproximación',
+                        data: datosAproximacionesIteracion,
+                        borderColor: colores.aproximacion,
+                        backgroundColor: 'transparent',
+                        tension: 0.2,
+                        pointRadius: 3,
+                        yAxisID: 'y',
+                    },
+                    {
+                        label: 'Error',
+                        data: datosErrores,
+                        borderColor: colores.error,
+                        backgroundColor: 'transparent',
+                        tension: 0.2,
+                        pointRadius: 3,
+                        yAxisID: 'y1',
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'nearest',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: colores.texto,
+                        },
+                    },
+                    title: {
+                        display: true,
+                        text: 'Convergencia por iteración',
+                        color: colores.texto,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label(context) {
+                                const valor = formatearNumero(context.parsed.y);
+                                return `${context.dataset.label}: ${valor}`;
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        ticks: {
+                            stepSize: 1,
+                            color: colores.texto,
+                        },
+                        grid: { color: colores.grid },
+                        title: {
+                            display: true,
+                            text: 'Iteración',
+                            color: colores.texto,
+                        },
+                    },
+                    y: {
+                        position: 'left',
+                        ticks: { color: colores.texto },
+                        grid: { color: colores.grid },
+                        title: {
+                            display: true,
+                            text: 'Aproximación',
+                            color: colores.texto,
+                        },
+                    },
+                    y1: {
+                        position: 'right',
+                        ticks: { color: colores.texto },
+                        grid: { drawOnChartArea: false },
+                        title: {
+                            display: true,
+                            text: 'Error',
+                            color: colores.texto,
+                        },
+                    },
+                },
+            },
+        });
+    }
+}
+
+function actualizarTemaGraficas() {
+    if (!graficoFuncion && !graficoConvergencia) {
+        return;
+    }
+    actualizarGraficas(
+        estadoGraficas.ecuacion,
+        estadoGraficas.puntosFuncion,
+        estadoGraficas.convergencia,
+    );
+}
+
 // Función para mostrar modal con diferentes tipos
 function mostrarModal(titulo, mensaje, tipo = 'information') {
     const modal = document.getElementById('modal');
@@ -105,6 +372,8 @@ function toggleMode() {
         toggleButton.classList.remove('toggle__button--active');
         toggleCircle.classList.remove('toggle__circle--active');
     }
+
+    actualizarTemaGraficas();
 }
 
 function headerTabla(e) {
@@ -261,6 +530,13 @@ async function procesarEcuacion() {
             // Llenar tabla con resultados
             llenarTabla(resultado.resultados, resultado.time);
 
+            // Dibujar gráficas interactivas
+            actualizarGraficas(
+                resultado.ecuacion,
+                resultado.puntos_funcion || [],
+                resultado.convergencia || [],
+            );
+
             // Mostrar mensaje de éxito
             mostrarExito(`Método completado exitosamente`);
         } else {
@@ -278,4 +554,25 @@ async function procesarEcuacion() {
 function limpiarTabla() {
     const tbody = document.getElementById('tablaResultados');
     tbody.innerHTML = '';
+    const it = document.getElementById('iterations');
+    const result = document.getElementById('result');
+    const time = document.getElementById('time-result');
+    if (it) {
+        it.classList.add('visually-hidden');
+        it.textContent = '';
+    }
+    if (result) {
+        result.classList.add('visually-hidden');
+        result.textContent = '';
+    }
+    if (time) {
+        time.classList.add('visually-hidden');
+        time.textContent = '';
+    }
+    limpiarGraficas();
+    estadoGraficas = {
+        ecuacion: '',
+        puntosFuncion: [],
+        convergencia: [],
+    };
 }
