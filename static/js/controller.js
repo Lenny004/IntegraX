@@ -1,8 +1,23 @@
+// Variables globales para las gráficas
 let graficoFuncion = null;
 let estadoGraficas = {
     ecuacion: '',
     puntosFuncion: [],
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    const theme = document.getElementById('theme');
+
+    const hora = new Date().getHours();
+    const esNoche = hora >= 19 || hora < 7;
+
+    theme.classList.remove('theme--light', 'theme--dark');
+    theme.classList.add(esNoche ? 'theme--dark' : 'theme--light');
+
+    if (window.actualizarTemaGraficas) {
+        actualizarTemaGraficas();
+    }
+});
 
 function formatearNumero(valor) {
     return typeof valor === 'number' && Number.isFinite(valor)
