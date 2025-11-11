@@ -17,8 +17,8 @@ from utils import (
 # que se convertirá en nuestra aplicación WSGI
 app = Flask(__name__)
 
-
 def _safe_float(value):
+    """Convierte a float descartando texto vacío y valores no finitos."""
     if value is None:
         return None
     if isinstance(value, str):
@@ -36,9 +36,11 @@ def _safe_float(value):
 
 
 def generar_puntos_funcion(ecuacion, inicio, fin, cantidad=200):
+    """Genera pares (x, f(x)) uniformemente distribuidos en [inicio, fin]."""
     if cantidad < 2:
         cantidad = 2
 
+    # Usamos valores de respaldo cuando el intervalo propuesto no es finito.
     if not math.isfinite(inicio):
         inicio = -1.0
     if not math.isfinite(fin):
@@ -47,15 +49,18 @@ def generar_puntos_funcion(ecuacion, inicio, fin, cantidad=200):
     if inicio > fin:
         inicio, fin = fin, inicio
 
+    # Acotamos el rango para evitar evaluar números enormes.
     inicio = max(inicio, -1e3)
     fin = min(fin, 1e3)
 
+    # Si el intervalo colapsa extendemos ligeramente para obtener al menos dos muestras distintas.
     if inicio == fin:
         margen = 1.0 if abs(inicio) < 1 else abs(inicio) * 0.5
         inicio -= margen
         fin += margen
 
     rango = fin - inicio
+    # Cuando el ancho es casi cero añadimos un delta para evitar divisiones problemáticas.
     if rango <= 1e-9:
         inicio -= 1.0
         fin += 1.0
@@ -64,6 +69,7 @@ def generar_puntos_funcion(ecuacion, inicio, fin, cantidad=200):
     paso = rango / (cantidad - 1)
     puntos = []
 
+    # Recorremos el intervalo generando cada punto y validamos f(x) antes de guardarlo.
     for indice in range(cantidad):
         x_valor = inicio + paso * indice
         try:
@@ -123,35 +129,26 @@ def calcular_metodo():
                 return jsonify({'error': 'Método no reconocido'}), 400
         duracion = perf_counter() - inicio
 
+        # La columna que contiene la mejor aproximación cambia según el método seleccionado.
         if metodo in (1, 2):
             aproximacion_clave = 'xi'
-            valor_clave = 'f(xi)'
         else:
             aproximacion_clave = 'xi+1'
-            valor_clave = 'f(xi+1)'
 
-        convergencia = []
         aproximaciones = []
 
+        # Guardamos únicamente las aproximaciones numéricas válidas para definir el dominio de la gráfica.
         for registro in resultados:
-            iteracion = registro.get('n')
             aproximacion = _safe_float(registro.get(aproximacion_clave))
-            valor_funcion = _safe_float(registro.get(valor_clave))
-            error_valor = _safe_float(registro.get('error'))
 
             if aproximacion is not None:
                 aproximaciones.append(aproximacion)
 
-            convergencia.append({
-                'iteracion': iteracion,
-                'aproximacion': aproximacion,
-                'f_aproximacion': valor_funcion,
-                'error': error_valor,
-            })
-
+        # Construimos el intervalo combinando los valores iniciales con las aproximaciones calculadas.
         valores_intervalo = [a, b] + aproximaciones
         valores_validos = [valor for valor in valores_intervalo if valor is not None]
 
+        # Si hay datos válidos usamos sus extremos; de lo contrario recurrimos a los valores iniciales.
         if valores_validos:
             minimo = min(valores_validos)
             maximo = max(valores_validos)
@@ -159,22 +156,17 @@ def calcular_metodo():
             minimo = min(a, b)
             maximo = max(a, b)
 
-        if minimo == maximo:
-            margen = 1.0 if abs(minimo) < 1 else abs(minimo) * 0.1
-            minimo -= margen
-            maximo += margen
-        else:
-            rango = maximo - minimo
-            margen = rango * 0.1 if rango > 0 else 1.0
-            minimo -= margen
-            maximo += margen
-
+        # Limitamos el rango a valores razonables para evitar que la gráfica se descontrole.
         minimo = max(minimo, -1e3)
         maximo = min(maximo, 1e3)
 
+        # Para dominios degenerados extendemos el intervalo mínimamente para obtener dos puntos distintos.
         if minimo >= maximo:
-            minimo, maximo = sorted([minimo, maximo + 1])
+            incremento = 1.0 if abs(minimo) < 1 else abs(minimo) * 0.01
+            minimo -= incremento
+            maximo += incremento
 
+        # Con el dominio final generamos los puntos de f(x) para la gráfica.
         puntos_funcion = generar_puntos_funcion(ecuacion, minimo, maximo)
 
         return jsonify({
@@ -184,7 +176,6 @@ def calcular_metodo():
             'ecuacion': ecuacion,
             'time': duracion,
             'puntos_funcion': puntos_funcion,
-            'convergencia': convergencia,
         })
 
     except ValueError as e:

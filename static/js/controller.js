@@ -1,9 +1,7 @@
 let graficoFuncion = null;
-let graficoConvergencia = null;
 let estadoGraficas = {
     ecuacion: '',
     puntosFuncion: [],
-    convergencia: [],
 };
 
 function formatearNumero(valor) {
@@ -30,22 +28,17 @@ function limpiarGraficas() {
         graficoFuncion.destroy();
         graficoFuncion = null;
     }
-    if (graficoConvergencia) {
-        graficoConvergencia.destroy();
-        graficoConvergencia = null;
-    }
 }
 
-function actualizarGraficas(ecuacion, puntosFuncion = [], convergencia = []) {
+function actualizarGraficas(ecuacion, puntosFuncion = []) {
+    // Persistimos la última ecuación y puntos para poder redibujar tras cambiar el tema
     estadoGraficas = {
         ecuacion,
         puntosFuncion: Array.isArray(puntosFuncion) ? puntosFuncion.slice() : [],
-        convergencia: Array.isArray(convergencia) ? convergencia.slice() : [],
     };
 
     const colores = obtenerColoresGraficas();
     const canvasFuncion = document.getElementById('chart-funcion');
-    const canvasConvergencia = document.getElementById('chart-convergencia');
 
     if (canvasFuncion && window.Chart) {
         const contextoFuncion = canvasFuncion.getContext('2d');
@@ -53,19 +46,13 @@ function actualizarGraficas(ecuacion, puntosFuncion = [], convergencia = []) {
             graficoFuncion.destroy();
         }
 
+        // Normalizamos los puntos para Chart.js y descartamos valores no numéricos
         const datosFuncion = puntosFuncion.map(punto => ({
             x: punto.x,
             y: typeof punto.y === 'number' && Number.isFinite(punto.y) ? punto.y : null,
         }));
 
-        const datosAproximaciones = convergencia
-            .filter(item => typeof item.aproximacion === 'number' && typeof item.f_aproximacion === 'number')
-            .map(item => ({
-                x: item.aproximacion,
-                y: item.f_aproximacion,
-                iteracion: item.iteracion,
-            }));
-
+        // Configuramos un scatter con línea para representar f(x)
         graficoFuncion = new Chart(contextoFuncion, {
             type: 'scatter',
             data: {
@@ -79,14 +66,6 @@ function actualizarGraficas(ecuacion, puntosFuncion = [], convergencia = []) {
                         pointRadius: 0,
                         spanGaps: true,
                         borderWidth: 2,
-                    },
-                    {
-                        label: 'Aproximaciones',
-                        data: datosAproximaciones,
-                        showLine: false,
-                        borderColor: colores.puntos,
-                        backgroundColor: colores.puntos,
-                        pointRadius: 4,
                     },
                 ],
             },
@@ -110,13 +89,8 @@ function actualizarGraficas(ecuacion, puntosFuncion = [], convergencia = []) {
                     },
                     tooltip: {
                         callbacks: {
+                            // Tooltip con formato numérico consistente
                             label(context) {
-                                const punto = context.raw;
-                                if (context.datasetIndex === 1 && punto) {
-                                    const x = formatearNumero(punto.x);
-                                    const y = formatearNumero(punto.y);
-                                    return `Iteración ${punto.iteracion}: (${x}, ${y})`;
-                                }
                                 const x = formatearNumero(context.parsed.x);
                                 const y = formatearNumero(context.parsed.y);
                                 return `(${x}, ${y})`;
@@ -148,120 +122,15 @@ function actualizarGraficas(ecuacion, puntosFuncion = [], convergencia = []) {
             },
         });
     }
-
-    if (canvasConvergencia && window.Chart) {
-        const contextoConvergencia = canvasConvergencia.getContext('2d');
-        if (graficoConvergencia) {
-            graficoConvergencia.destroy();
-        }
-
-        const datosAproximacionesIteracion = convergencia
-            .filter(item => typeof item.aproximacion === 'number')
-            .map(item => ({ x: item.iteracion, y: item.aproximacion }));
-
-        const datosErrores = convergencia
-            .filter(item => typeof item.error === 'number' && item.error > 0)
-            .map(item => ({ x: item.iteracion, y: item.error }));
-
-        graficoConvergencia = new Chart(contextoConvergencia, {
-            type: 'line',
-            data: {
-                datasets: [
-                    {
-                        label: 'Aproximación',
-                        data: datosAproximacionesIteracion,
-                        borderColor: colores.aproximacion,
-                        backgroundColor: 'transparent',
-                        tension: 0.2,
-                        pointRadius: 3,
-                        yAxisID: 'y',
-                    },
-                    {
-                        label: 'Error',
-                        data: datosErrores,
-                        borderColor: colores.error,
-                        backgroundColor: 'transparent',
-                        tension: 0.2,
-                        pointRadius: 3,
-                        yAxisID: 'y1',
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    mode: 'nearest',
-                    intersect: false,
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: colores.texto,
-                        },
-                    },
-                    title: {
-                        display: true,
-                        text: 'Convergencia por iteración',
-                        color: colores.texto,
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label(context) {
-                                const valor = formatearNumero(context.parsed.y);
-                                return `${context.dataset.label}: ${valor}`;
-                            },
-                        },
-                    },
-                },
-                scales: {
-                    x: {
-                        type: 'linear',
-                        ticks: {
-                            stepSize: 1,
-                            color: colores.texto,
-                        },
-                        grid: { color: colores.grid },
-                        title: {
-                            display: true,
-                            text: 'Iteración',
-                            color: colores.texto,
-                        },
-                    },
-                    y: {
-                        position: 'left',
-                        ticks: { color: colores.texto },
-                        grid: { color: colores.grid },
-                        title: {
-                            display: true,
-                            text: 'Aproximación',
-                            color: colores.texto,
-                        },
-                    },
-                    y1: {
-                        position: 'right',
-                        ticks: { color: colores.texto },
-                        grid: { drawOnChartArea: false },
-                        title: {
-                            display: true,
-                            text: 'Error',
-                            color: colores.texto,
-                        },
-                    },
-                },
-            },
-        });
-    }
 }
 
 function actualizarTemaGraficas() {
-    if (!graficoFuncion && !graficoConvergencia) {
+    if (!graficoFuncion) {
         return;
     }
     actualizarGraficas(
         estadoGraficas.ecuacion,
         estadoGraficas.puntosFuncion,
-        estadoGraficas.convergencia,
     );
 }
 
@@ -534,7 +403,6 @@ async function procesarEcuacion() {
             actualizarGraficas(
                 resultado.ecuacion,
                 resultado.puntos_funcion || [],
-                resultado.convergencia || [],
             );
 
             // Mostrar mensaje de éxito
@@ -573,6 +441,5 @@ function limpiarTabla() {
     estadoGraficas = {
         ecuacion: '',
         puntosFuncion: [],
-        convergencia: [],
     };
 }
