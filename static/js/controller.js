@@ -146,12 +146,18 @@ function headerTabla(e) {
 }
 
 // Función para llenar la tabla con resultados
-function llenarTabla(resultados) {
+function llenarTabla(resultados, duracionSegundos) {
     const tbody = document.getElementById('tablaResultados');
     const it = document.getElementById('iterations');
     const result = document.getElementById('result');
+    const time = document.getElementById('time-result');
     it.classList.remove('visually-hidden');
     result.classList.remove('visually-hidden');
+    time.classList.remove('visually-hidden');
+    const textoDuracion = typeof duracionSegundos === 'number'
+        ? `El proceso tomó: ${duracionSegundos.toFixed(6)} s`
+        : 'El proceso tomó: N/D';
+    time.textContent = textoDuracion;
     let metodo = document.getElementById('metodo').value;
     tbody.innerHTML = '';
 
@@ -253,7 +259,7 @@ async function procesarEcuacion() {
 
         if (resultado.success) {
             // Llenar tabla con resultados
-            llenarTabla(resultado.resultados);
+            llenarTabla(resultado.resultados, resultado.time);
 
             // Mostrar mensaje de éxito
             mostrarExito(`Método completado exitosamente`);

@@ -252,6 +252,10 @@ select {
 }
 
 /* Results Table */
+.data{
+    margin-bottom: .5rem;
+}
+
 .results-table {
     background-color: white;
     border-radius: 0.5rem;
