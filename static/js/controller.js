@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     inicializarSidenav();
+    inicializarKeypad();
 });
 
 function openSidenav() {
@@ -122,6 +123,48 @@ function inicializarSidenav() {
 
     handleResponsiveNavigation();
     window.addEventListener('resize', handleResponsiveNavigation);
+}
+
+function obtenerValorKeypad(valor) {
+    const mapa = {
+        '/': '/',
+        '*': '*',
+        'sqrt(': 'sqrt(',
+        '=': '',
+    };
+
+    return mapa.hasOwnProperty(valor) ? mapa[valor] : valor;
+}
+
+function insertarTextoEnCursor(input, texto) {
+    const inicio = input.selectionStart ?? input.value.length;
+    const fin = input.selectionEnd ?? input.value.length;
+    const valorActual = input.value;
+    const nuevoValor = `${valorActual.slice(0, inicio)}${texto}${valorActual.slice(fin)}`;
+
+    input.value = nuevoValor;
+    const nuevaPosicion = inicio + texto.length;
+    input.setSelectionRange(nuevaPosicion, nuevaPosicion);
+}
+
+function inicializarKeypad() {
+    const teclado = document.querySelectorAll('.keypad-num');
+    const inputEcuacion = document.getElementById('ecuacion');
+
+    teclado.forEach(boton => {
+        boton.addEventListener('click', () => {
+            const valor = obtenerValorKeypad(boton.value || boton.textContent.trim());
+            insertarTextoEnCursor(inputEcuacion, valor);
+            inputEcuacion.focus();
+        });
+    });
+}
+
+function deleteText() {
+    const inputEcuacion = document.getElementById('ecuacion');
+    if (inputEcuacion) {
+        inputEcuacion.value = inputEcuacion.value.slice(0, -1);
+    }
 }
 
 function formatearNumero(valor) {

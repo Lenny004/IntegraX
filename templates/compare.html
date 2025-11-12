@@ -25,15 +25,13 @@
             <nav class="navbar">
                 <ul>
                     <li class="navbar__item"><a href="{{ url_for('home') }}" class="navbar__link">Inicio</a></li>
-                    <li class="navbar__item"><a href="{{ url_for('compare') }}" class="navbar__link">Comparador</a>
-                    </li>
-                    <li class="navbar__item"><a href="{{ url_for('examples') }}" class="navbar__link">Aprende</a>
-                    </li>
+                    <li class="navbar__item"><a href="{{ url_for('compare') }}" class="navbar__link">Comparador</a></li>
+                    <li class="navbar__item"><a href="{{ url_for('examples') }}" class="navbar__link">Aprende</a></li>
                 </ul>
             </nav>
-
             <div id="sidenav" class="sidenav" aria-hidden="true">
-                <span class="closebtn" role="button" tabindex="0" aria-label="Cerrar menú" onclick="closeSidenav()">×</span>
+                <span class="closebtn" role="button" tabindex="0" aria-label="Cerrar menú"
+                    onclick="closeSidenav()">×</span>
                 <a href="{{ url_for('home') }}">Inicio</a>
                 <a href="{{ url_for('compare') }}">Comparador</a>
                 <a href="{{ url_for('examples') }}">Aprende</a>
@@ -67,7 +65,7 @@
     </div>
     <!-- Main Content -->
     <main class="main">
-        <div class="main__grid">
+        <div class="main__grid compare__grid">
             <!-- Input Section -->
             <form class="input-section">
                 <label for="ecuacion" class="input-section__label">
@@ -104,15 +102,6 @@
                     <button type="button" class="keypad-num" value="exp">EXP</button>
                     <button type="button" class="keypad-delete" onclick="deleteText()"><img src="../static/imgs/icons/clear.png" alt="clear"></button>
                 </div>
-                <label for="metodo" class="input-section__label">
-                    Seleccione el método numérico:
-                </label>
-                <select id="metodo" class="form-control" onchange="headerTabla(this.value)" required>
-                    <option value="">Seleccione un método</option>
-                    <option value="1">Método de Bisección</option>
-                    <option value="2">Método de Regla Falsa</option>
-                    <option value="3">Método de la Secante</option>
-                </select>
                 <div class="parameters">
                     <div class="parameters__group">
                         <div class="parameters__field">
@@ -135,40 +124,31 @@
                         </div>
                     </div>
                 </div>
+                <h1>Comparación de métodos numéricos</h1>
+                <label for="metodo" class="input-section__label">
+                    Seleccione el primer método numérico:
+                </label>
+                <select id="metodo" class="form-control" onchange="headerTabla(this.value)" required>
+                    <option value="">Seleccione un método</option>
+                    <option value="1">Método de Bisección</option>
+                    <option value="2">Método de Regla Falsa</option>
+                    <option value="3">Método de la Secante</option>
+                </select>
+                <label for="metodo_compare" class="input-section__label">
+                    Seleccione el segundo método numérico:
+                </label>
+                <select id="metodo_compare" class="form-control" onchange="headerTabla(this.value)" required>
+                    <option value="">Seleccione un método</option>
+                    <option value="1">Método de Bisección</option>
+                    <option value="2">Método de Regla Falsa</option>
+                    <option value="3">Método de la Secante</option>
+                </select>
                 <button type="button" onclick="procesarEcuacion()" class="button button--full">
                     Procesar
                 </button>
             </form>
-
-            <!-- Image Section -->
-            <div class="image-section">
-                <img src="../static/imgs/fondo.png" alt="chico_estudiando" class="image-section__img">
-            </div>
         </div>
-        <p id="iterations" class="data visually-hidden"></p>
-        <p id="result" class="data visually-hidden"></p>
-        <p id="time-result" class="data visually-hidden"></p>
-        <section class="charts-section">
-            <div class="chart-card">
-                <h2 class="chart-card__title">Gráfica de la función</h2>
-                <div class="chart-card__canvas-wrapper">
-                    <canvas id="chart-funcion"></canvas>
-                </div>
-            </div>
-        </section>
-        <!-- Results Table -->
-        <div class="results-table">
-            <div class="results-table__wrapper">
-                <table class="results-table__table">
-                    <thead id="headerResultados">
-
-                    </thead>
-                    <tbody id="tablaResultados">
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        
     </main>
     <!-- Footer -->
     <footer class="footer">

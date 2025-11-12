@@ -1,10 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from time import perf_counter
 import math
-
-# Crea una instancia de la clase Flask
-app = Flask(__name__)
-
 # Importar nuestros módulos separados
 from utils import (
     metodo_biseccion,
@@ -93,6 +89,10 @@ def home():
 @app.route("/examples")
 def examples():
     return render_template('examples.html')
+
+@app.route("/compare")
+def compare():
+    return render_template('compare.html')
 
 @app.route('/calcular', methods=['POST'])
 def calcular_metodo():
