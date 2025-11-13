@@ -244,20 +244,10 @@ function generarTablaEjemplo(ejemploNum, metodo, resultados, tiempo, headerId, t
             : 'N/D';
 
         infoElement.innerHTML = `
-            <strong>Método:</strong> ${nombreMetodo}<br>
-            <strong>Iteraciones:</strong> ${ultimoResultado.n}<br>
-            <strong>Raíz aproximada:</strong> x ≈ ${raizAproximada}<br>
-            <strong>Tiempo de ejecución:</strong> ${tiempoFormateado} segundos
+            <p><strong>Método:</strong> ${nombreMetodo}</p>
+            <p><strong>Iteraciones:</strong> ${ultimoResultado.n}</p>
+            <p><strong>Raíz aproximada:</strong> x ≈ ${raizAproximada}</p>
+            <p><strong>Tiempo de ejecución:</strong> ${tiempoFormateado} segundos</p>
         `;
     }
 }
-
-/**
- * Inicialización cuando el DOM está listo
- */
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Página de ejemplos cargada y lista');
-    
-    // Opcional: Pre-cargar el primer ejemplo automáticamente
-    // ejecutarEjemplo(1, 1, 'x^2-4', 0, 3);
-});
