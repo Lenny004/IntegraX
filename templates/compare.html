@@ -128,7 +128,7 @@
                 <label for="metodo" class="input-section__label">
                     Seleccione el primer método numérico:
                 </label>
-                <select id="metodo" class="form-control" onchange="headerTabla(this.value)" required>
+                <select id="metodo" class="form-control" required>
                     <option value="">Seleccione un método</option>
                     <option value="1">Método de Bisección</option>
                     <option value="2">Método de Regla Falsa</option>
@@ -137,7 +137,7 @@
                 <label for="metodo_compare" class="input-section__label">
                     Seleccione el segundo método numérico:
                 </label>
-                <select id="metodo_compare" class="form-control" onchange="headerTabla(this.value)" required>
+                <select id="metodo_compare" class="form-control" required>
                     <option value="">Seleccione un método</option>
                     <option value="1">Método de Bisección</option>
                     <option value="2">Método de Regla Falsa</option>
@@ -148,7 +148,37 @@
                 </button>
             </form>
         </div>
-        
+        <section class="comparison-section visually-hidden" id="comparisonSection">
+            <div class="section-card comparison-card" id="comparisonCardMetodo1">
+                <h2 class="section-card__title" id="metodo1-title">Método 1</h2>
+                <p class="data visually-hidden" id="metodo1-iterations"></p>
+                <p class="data visually-hidden" id="metodo1-result"></p>
+                <p class="data visually-hidden" id="metodo1-time"></p>
+                <div class="results-table">
+                    <div class="results-table__wrapper">
+                        <table class="results-table__table">
+                            <thead id="headerResultados-metodo-1"></thead>
+                            <tbody id="tablaResultados-metodo-1"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="section-card comparison-card" id="comparisonCardMetodo2">
+                <h2 class="section-card__title" id="metodo2-title">Método 2</h2>
+                <p class="data visually-hidden" id="metodo2-iterations"></p>
+                <p class="data visually-hidden" id="metodo2-result"></p>
+                <p class="data visually-hidden" id="metodo2-time"></p>
+                <div class="results-table">
+                    <div class="results-table__wrapper">
+                        <table class="results-table__table">
+                            <thead id="headerResultados-metodo-2"></thead>
+                            <tbody id="tablaResultados-metodo-2"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
     <!-- Footer -->
     <footer class="footer">
@@ -162,6 +192,7 @@
     </footer>
     <script src="../static/js/controller.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/js/compare.js" type="text/javascript"></script>
 </body>
 
 </html>

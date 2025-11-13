@@ -287,6 +287,17 @@ nav ul li a:hover {
     grid-template-columns: 1fr;
 }
 
+.comparison-section {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.comparison-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 
 /** EXAMPLE*/
 .section-card {
