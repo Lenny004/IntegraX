@@ -164,6 +164,9 @@ Casos reales resueltos:
 - Menor fatiga visual
 - Transición suave entre modos
 
+<img width="2560" height="1438" alt="Captura2" src="https://github.com/user-attachments/assets/c445157a-807e-410d-bee2-0785fe5d9d7f" />
+
+
 ## 🧮 Métodos implementados
 
 ### 1. Método de Bisección
