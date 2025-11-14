@@ -7,6 +7,11 @@
 
 > **IntegraX** es una aplicación web interactiva diseñada para facilitar el aprendizaje y la práctica de métodos numéricos. Permite encontrar raíces de ecuaciones mediante diferentes métodos iterativos, mostrando paso a paso el proceso de convergencia.
 
+<img width="2534" height="1256" alt="Captura1" src="https://github.com/user-attachments/assets/36dc465c-29cf-46e9-89ce-022afc4e14d1" />
+
+<img width="2530" height="1390" alt="Captura2" src="https://github.com/user-attachments/assets/48b9d8c7-5503-474f-931d-7136e9a116a5" />
+
+
 ## 📋 Tabla de Contenidos
 
 - [Características](#-características)
@@ -24,7 +29,7 @@
 - [Licencia](#-licencia)
 - [Autor](#-autor)
 
-## ✨ Características
+
 
 ## ✨ Características
 
@@ -140,6 +145,9 @@ Ejecuta los 3 métodos simultáneamente y compara:
 - Velocidad de convergencia
 - Precisión final alcanzada
 
+<img width="1384" height="1290" alt="Captura3" src="https://github.com/user-attachments/assets/b484e79f-b6dd-45fd-81b1-5f45a357a013" />
+
+
 ### Sección Educativa "Aprende"
 <img width="2560" alt="Ejemplos Educativos" src="URL_DE_TU_CAPTURA" />
 
@@ -147,6 +155,9 @@ Casos reales resueltos:
 - **🏗️ Ingeniería:** Diseño de cable de puente colgante
 - **🧪 Química:** Optimización de reactor de amoníaco
 - **💊 Medicina:** Dosificación precisa de antiarrítmicos
+
+  <img width="1006" height="1408" alt="Captura4" src="https://github.com/user-attachments/assets/d63906ad-c327-4150-bc87-25e9633fb628" />
+
 
 ### Modo Oscuro
 - Paleta de colores optimizada para trabajo nocturno
