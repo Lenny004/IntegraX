@@ -163,7 +163,23 @@ function inicializarKeypad() {
 function deleteText() {
     const inputEcuacion = document.getElementById('ecuacion');
     if (inputEcuacion) {
-        inputEcuacion.value = inputEcuacion.value.slice(0, -1);
+        const inicio = inputEcuacion.selectionStart ?? inputEcuacion.value.length;
+        const fin = inputEcuacion.selectionEnd ?? inputEcuacion.value.length;
+
+        if (inicio !== fin) {
+            const nuevoValor = `${inputEcuacion.value.slice(0, inicio)}${inputEcuacion.value.slice(fin)}`;
+            inputEcuacion.value = nuevoValor;
+            inputEcuacion.focus({ preventScroll: true });
+            inputEcuacion.setSelectionRange(inicio, inicio);
+        } else if (inicio > 0) {
+            const posicion = inicio - 1;
+            const nuevoValor = `${inputEcuacion.value.slice(0, posicion)}${inputEcuacion.value.slice(fin)}`;
+            inputEcuacion.value = nuevoValor;
+            inputEcuacion.focus({ preventScroll: true });
+            inputEcuacion.setSelectionRange(posicion, posicion);
+        } else {
+            inputEcuacion.focus({ preventScroll: true });
+        }
     }
 }
 
