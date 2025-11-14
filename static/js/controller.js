@@ -1,3 +1,302 @@
+// Variables globales para las gráficas
+let graficoFuncion = null;
+let estadoGraficas = {
+    ecuacion: '',
+    puntosFuncion: [],
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const theme = document.getElementById('theme');
+
+    const hora = new Date().getHours();
+    const esNoche = hora >= 19 || hora < 7;
+
+    theme.classList.remove('theme--light', 'theme--dark');
+    theme.classList.add(esNoche ? 'theme--dark' : 'theme--light');
+
+    if (window.actualizarTemaGraficas) {
+        actualizarTemaGraficas();
+    }
+
+    inicializarSidenav();
+    inicializarKeypad();
+});
+
+function openSidenav() {
+    const sidenav = document.getElementById('sidenav');
+    const overlay = document.getElementById('overlay');
+    const menuIcon = document.querySelector('.menu-icon');
+
+    if (!window.matchMedia('(max-width: 768px)').matches) {
+        return;
+    }
+
+    if (!sidenav || !overlay) {
+        return;
+    }
+
+    sidenav.classList.add('show');
+    sidenav.setAttribute('aria-hidden', 'false');
+
+    overlay.classList.add('show');
+    overlay.style.display = 'block';
+
+    if (menuIcon) {
+        menuIcon.setAttribute('aria-expanded', 'true');
+    }
+}
+
+function closeSidenav() {
+    const sidenav = document.getElementById('sidenav');
+    const overlay = document.getElementById('overlay');
+    const menuIcon = document.querySelector('.menu-icon');
+
+    if (sidenav) {
+        sidenav.classList.remove('show');
+        sidenav.setAttribute('aria-hidden', 'true');
+    }
+
+    if (overlay) {
+        overlay.classList.remove('show');
+        overlay.style.display = 'none';
+    }
+
+    if (menuIcon) {
+        menuIcon.setAttribute('aria-expanded', 'false');
+    }
+}
+
+function handleResponsiveNavigation() {
+    const menuIcon = document.querySelector('.menu-icon');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    if (!isMobile) {
+        closeSidenav();
+    }
+
+    if (menuIcon) {
+        menuIcon.setAttribute('aria-hidden', (!isMobile).toString());
+        menuIcon.tabIndex = isMobile ? 0 : -1;
+    }
+}
+
+function inicializarSidenav() {
+    const menuIcon = document.querySelector('.menu-icon');
+    const sidenavOverlay = document.getElementById('overlay');
+    const closeButton = document.querySelector('#sidenav .closebtn');
+
+    if (menuIcon) {
+        menuIcon.setAttribute('role', 'button');
+        menuIcon.setAttribute('aria-controls', 'sidenav');
+        menuIcon.setAttribute('aria-expanded', 'false');
+        menuIcon.setAttribute('aria-label', 'Abrir menú lateral');
+        menuIcon.tabIndex = -1;
+
+        menuIcon.addEventListener('click', openSidenav);
+        menuIcon.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                openSidenav();
+            }
+        });
+    }
+
+    if (sidenavOverlay) {
+        sidenavOverlay.addEventListener('click', closeSidenav);
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener('click', closeSidenav);
+        closeButton.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                closeSidenav();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            closeSidenav();
+        }
+    });
+
+    handleResponsiveNavigation();
+    window.addEventListener('resize', handleResponsiveNavigation);
+}
+
+function obtenerValorKeypad(valor) {
+    const mapa = {
+        '/': '/',
+        '*': '*',
+        'sqrt(': 'sqrt(',
+        '=': '',
+    };
+
+    return mapa.hasOwnProperty(valor) ? mapa[valor] : valor;
+}
+
+function insertarTextoEnCursor(input, texto) {
+    const inicio = input.selectionStart ?? input.value.length;
+    const fin = input.selectionEnd ?? input.value.length;
+    const valorActual = input.value;
+    const nuevoValor = `${valorActual.slice(0, inicio)}${texto}${valorActual.slice(fin)}`;
+
+    input.value = nuevoValor;
+    const nuevaPosicion = inicio + texto.length;
+    input.setSelectionRange(nuevaPosicion, nuevaPosicion);
+}
+
+function inicializarKeypad() {
+    const teclado = document.querySelectorAll('.keypad-num');
+    const inputEcuacion = document.getElementById('ecuacion');
+
+    teclado.forEach(boton => {
+        boton.addEventListener('click', () => {
+            const valor = obtenerValorKeypad(boton.value || boton.textContent.trim());
+            insertarTextoEnCursor(inputEcuacion, valor);
+            inputEcuacion.focus();
+        });
+    });
+}
+
+function deleteText() {
+    const inputEcuacion = document.getElementById('ecuacion');
+    if (inputEcuacion) {
+        inputEcuacion.value = inputEcuacion.value.slice(0, -1);
+    }
+}
+
+function formatearNumero(valor) {
+    return typeof valor === 'number' && Number.isFinite(valor)
+        ? valor.toFixed(6)
+        : 'N/D';
+}
+
+function obtenerColoresGraficas() {
+    const theme = document.getElementById('theme');
+    const esOscuro = theme && theme.classList.contains('theme--dark');
+    return {
+        texto: esOscuro ? '#f3f4f6' : '#1f2937',
+        grid: esOscuro ? 'rgba(243, 244, 246, 0.15)' : 'rgba(31, 41, 55, 0.1)',
+        funcion: '#2563eb',
+        puntos: '#f97316',
+        aproximacion: '#10b981',
+        error: '#ef4444'
+    };
+}
+
+function limpiarGraficas() {
+    if (graficoFuncion) {
+        graficoFuncion.destroy();
+        graficoFuncion = null;
+    }
+}
+
+function actualizarGraficas(ecuacion, puntosFuncion = []) {
+    // Persistimos la última ecuación y puntos para poder redibujar tras cambiar el tema
+    estadoGraficas = {
+        ecuacion,
+        puntosFuncion: Array.isArray(puntosFuncion) ? puntosFuncion.slice() : [],
+    };
+
+    const colores = obtenerColoresGraficas();
+    const canvasFuncion = document.getElementById('chart-funcion');
+
+    if (canvasFuncion && window.Chart) {
+        const contextoFuncion = canvasFuncion.getContext('2d');
+        if (graficoFuncion) {
+            graficoFuncion.destroy();
+        }
+
+        // Normalizamos los puntos para Chart.js y descartamos valores no numéricos
+        const datosFuncion = puntosFuncion.map(punto => ({
+            x: punto.x,
+            y: typeof punto.y === 'number' && Number.isFinite(punto.y) ? punto.y : null,
+        }));
+
+        // Configuramos un scatter con línea para representar f(x)
+        graficoFuncion = new Chart(contextoFuncion, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: `f(x) = ${ecuacion}`,
+                        data: datosFuncion,
+                        showLine: true,
+                        borderColor: colores.funcion,
+                        backgroundColor: 'transparent',
+                        pointRadius: 0,
+                        spanGaps: true,
+                        borderWidth: 2,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'nearest',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: colores.texto,
+                        },
+                    },
+                    title: {
+                        display: true,
+                        text: 'Gráfica de la función',
+                        color: colores.texto,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            // Tooltip con formato numérico consistente
+                            label(context) {
+                                const x = formatearNumero(context.parsed.x);
+                                const y = formatearNumero(context.parsed.y);
+                                return `(${x}, ${y})`;
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        ticks: { color: colores.texto },
+                        grid: { color: colores.grid },
+                        title: {
+                            display: true,
+                            text: 'x',
+                            color: colores.texto,
+                        },
+                    },
+                    y: {
+                        ticks: { color: colores.texto },
+                        grid: { color: colores.grid },
+                        title: {
+                            display: true,
+                            text: 'f(x)',
+                            color: colores.texto,
+                        },
+                    },
+                },
+            },
+        });
+    }
+}
+
+function actualizarTemaGraficas() {
+    if (!graficoFuncion) {
+        return;
+    }
+    actualizarGraficas(
+        estadoGraficas.ecuacion,
+        estadoGraficas.puntosFuncion,
+    );
+}
+
 // Función para mostrar modal con diferentes tipos
 function mostrarModal(titulo, mensaje, tipo = 'information') {
     const modal = document.getElementById('modal');
@@ -64,9 +363,9 @@ function closeModal() {
 }
 
 // Cerrar modal al hacer clic en el overlay
-const overlay = document.getElementById('modal-overlay');
-if (overlay) {
-    overlay.addEventListener('click', closeModal);
+const modalOverlayElement = document.getElementById('modal-overlay');
+if (modalOverlayElement) {
+    modalOverlayElement.addEventListener('click', closeModal);
 }
 
 // Función para mostrar error (actualizada)
@@ -105,6 +404,8 @@ function toggleMode() {
         toggleButton.classList.remove('toggle__button--active');
         toggleCircle.classList.remove('toggle__circle--active');
     }
+
+    actualizarTemaGraficas();
 }
 
 function headerTabla(e) {
@@ -146,12 +447,18 @@ function headerTabla(e) {
 }
 
 // Función para llenar la tabla con resultados
-function llenarTabla(resultados) {
+function llenarTabla(resultados, duracionSegundos) {
     const tbody = document.getElementById('tablaResultados');
     const it = document.getElementById('iterations');
     const result = document.getElementById('result');
+    const time = document.getElementById('time-result');
     it.classList.remove('visually-hidden');
     result.classList.remove('visually-hidden');
+    time.classList.remove('visually-hidden');
+    const textoDuracion = typeof duracionSegundos === 'number'
+        ? `El proceso tomó: ${duracionSegundos.toFixed(6)} s`
+        : 'El proceso tomó: N/D';
+    time.textContent = textoDuracion;
     let metodo = document.getElementById('metodo').value;
     tbody.innerHTML = '';
 
@@ -253,7 +560,13 @@ async function procesarEcuacion() {
 
         if (resultado.success) {
             // Llenar tabla con resultados
-            llenarTabla(resultado.resultados);
+            llenarTabla(resultado.resultados, resultado.time);
+
+            // Dibujar gráficas interactivas
+            actualizarGraficas(
+                resultado.ecuacion,
+                resultado.puntos_funcion || [],
+            );
 
             // Mostrar mensaje de éxito
             mostrarExito(`Método completado exitosamente`);
@@ -272,4 +585,24 @@ async function procesarEcuacion() {
 function limpiarTabla() {
     const tbody = document.getElementById('tablaResultados');
     tbody.innerHTML = '';
+    const it = document.getElementById('iterations');
+    const result = document.getElementById('result');
+    const time = document.getElementById('time-result');
+    if (it) {
+        it.classList.add('visually-hidden');
+        it.textContent = '';
+    }
+    if (result) {
+        result.classList.add('visually-hidden');
+        result.textContent = '';
+    }
+    if (time) {
+        time.classList.add('visually-hidden');
+        time.textContent = '';
+    }
+    limpiarGraficas();
+    estadoGraficas = {
+        ecuacion: '',
+        puntosFuncion: [],
+    };
 }

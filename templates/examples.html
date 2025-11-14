@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende - Métodos Numéricos | IntegraX</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/fonts.css">
+    <link rel="icon" href="../static/imgs/logo_Integrax2.png" type="image/png">
+</head>
+
+<body class="theme theme--light" id="theme">
+    <div id="modal-overlay" class="modal-overlay"></div>
+    <div id="overlay" class="overlay"></div>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__container">
+            <div class="menu-icon">
+                <img src="../static/imgs/icons/menu.png" alt="menu" class="menu">
+            </div>
+            <div class="header__content">
+                <h1 class="header__title">IntegraX</h1>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li class="navbar__item"><a href="{{ url_for('home') }}" class="navbar__link">Inicio</a></li>
+                    <li class="navbar__item"><a href="{{ url_for('compare') }}" class="navbar__link">Comparador</a>
+                    </li>
+                    <li class="navbar__item"><a href="{{ url_for('examples') }}" class="navbar__link">Aprende</a></li>
+                </ul>
+            </nav>
+            <div id="sidenav" class="sidenav" aria-hidden="true">
+                <span class="closebtn" role="button" tabindex="0" aria-label="Cerrar menú"
+                    onclick="closeSidenav()">×</span>
+                <a href="{{ url_for('home') }}">Inicio</a>
+                <a href="{{ url_for('compare') }}">Comparador</a>
+                <a href="{{ url_for('examples') }}">Aprende</a>
+            </div>
+            <!-- Toggle Mode -->
+            <div class="toggle">
+                <span class="toggle__icon">☀️</span>
+                <button onclick="toggleMode()" class="toggle__button" id="toggleButton">
+                    <span class="toggle__circle" id="toggleCircle"></span>
+                </button>
+                <span class="toggle__icon">🌙</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal__header">
+            <div class="modal__header-icon danger" id="modal-icon">
+                <img src="../static/imgs/icons/warning.png" alt="icon">
+            </div>
+            <h3 id="modal__header-title">Titulo</h3>
+        </div>
+        <div class="modal__body">
+            <div class="modal__body-content">
+                <p id="modal-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+            <div class="modal__body-actions">
+                <button type="button" class="cancel-button" onclick="closeModal()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Title Section -->
+        <section class="title-section">
+            <h1 class="title-section__title">Aplicaciones Reales</h1>
+            <p class="title-section__subtitle">Resuelve problemas del mundo real con métodos numéricos</p>
+        </section>
+
+        <!-- Comparación de Métodos -->
+        <section class="section-card">
+            <h2 class="section-card__title">Comparación de Métodos</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Bisección</th>
+                        <th>Regla Falsa</th>
+                        <th>Secante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Velocidad</strong></td>
+                        <td><span class="badge badge--warning">Lenta</span></td>
+                        <td><span class="badge badge--info">Media</span></td>
+                        <td><span class="badge badge--success">Rápida</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cambio de signo</strong></td>
+                        <td>Requerido</td>
+                        <td>Requerido</td>
+                        <td>No requerido</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mejor para</strong></td>
+                        <td>Principiantes</td>
+                        <td>Uso general</td>
+                        <td>Expertos</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Ejemplo 1: INGENIERÍA CIVIL - Diseño de Cable de Puente -->
+        <section class="section-card">
+            <h2 class="section-card__title">Caso 1: Ingeniería Civil - Diseño de Cable de Puente Colgante</h2>
+            <div class="problem-context">
+                <h3 class="problem-context__title">
+                    Contexto del Problema
+                </h3>
+                <p><strong>Situación:</strong> Estás diseñando un puente colgante para cruzar un río. El cable
+                    principal del puente forma una curva llamada catenaria.</p>
+                <p><strong>Objetivo:</strong> Determinar la tensión mínima del cable
+                    para que soporte su propio peso y la carga del puente sin exceder el límite de elasticidad del
+                    acero.</p>
+                <p><strong>Datos:</strong></p>
+                <ul>
+                    <li>Longitud del puente: 100 metros</li>
+                    <li>Peso del cable: 50 kg/m</li>
+                    <li>Carga adicional del puente: 200 kg/m</li>
+                    <li>La ecuación que relaciona la tensión T con la flecha h (descenso del cable) es:</li>
+                </ul>
+            </div>
+
+            <div class="example-interactive" id="example1">
+                <h2 class="example-interactive__title">Ecuación de Equilibrio del Cable</h2>
+                <p class="example-interactive__subtitle">Encontrar el punto donde la tensión es óptima</p>
+
+                <div class="example-interactive__equation">
+                    f(x) = x³ - 6x² + 9x - 2 = 0
+                </div>
+
+                <p><strong>Significado físico:</strong> Esta ecuación simplificada
+                    representa el balance de fuerzas en el cable. La variable <i>x</i> está relacionada con
+                    el factor de tensión (en unidades normalizadas).</p>
+
+                <div class="example-interactive__params">
+                    <div class="example-interactive__param">
+                        <span class="param-label">Ecuación:</span>
+                        <span class="param-value">x^3-6*x^2+9*x-2</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Intervalo de búsqueda:</span>
+                        <span class="param-value">x₀ = 0, x₁ = 2</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Solución esperada:</span>
+                        <span class="param-value">x ≈ 0.254</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Precisión requerida:</span>
+                        <span class="param-value">±0.000001 (seguridad)</span>
+                    </div>
+                </div>
+
+                <div class="problem-context real-world-impact">
+                    <h3 class="problem-context__title impact__title">
+                        Impacto en el Mundo Real
+                    </h3>
+                    <p><strong>¿Por qué es importante?</strong> Un error en el cálculo de la tensión puede
+                        resultar en:</p>
+                    <ul>
+                        <li>Cable subdimensionado → Colapso del puente</li>
+                        <li>Cable sobredimensionado → Desperdicio de millones de dólares</li>
+                        <li>Cálculo preciso → Puente seguro y económico</li>
+                    </ul>
+                    <p><strong>Método recomendado:</strong> Bisección, porque en
+                        ingeniería estructural la <strong>seguridad es primero</strong>. Necesitamos garantía
+                        absoluta de encontrar la solución correcta.</p>
+                </div>
+                <button class="button button--biseccion" onclick="ejecutarEjemplo(1, 1, 'x^3-6*x^2+9*x-2', 0, 2)">
+                    Bisección
+                </button>
+
+                <div class="results-container" id="results-example1">
+                    <div class="results-info">
+                        <div class="results-info__title">Resultados del Análisis Estructural</div>
+                        <div id="info-example1"></div>
+                    </div>
+                    <div class="interpretation-box">
+                        <div class="interpretation-box__title">Interpretación Ingenieril</div>
+                        <p>Con x ≈ 0.254, el factor de tensión está en el rango seguro. Esto significa:</p>
+                        <ul>
+                            <li>El cable soportará la carga sin deformación permanente</li>
+                            <li>Se mantiene un margen de seguridad del 20%</li>
+                            <li>Cumple con normativas internacionales (AASHTO, Eurocódigo)</li>
+                        </ul>
+                    </div>
+                    <div class="results-table">
+                        <div class="results-table__wrapper">
+                            <table class="results-table__table">
+                                <thead id="header-example1"></thead>
+                                <tbody id="table-example1"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ejemplo 2: QUÍMICA - Equilibrio de Reacciones -->
+        <section class="section-card">
+            <h2 class="section-card__title">Caso 2: Química Industrial - Reactor de Producción de Amoníaco</h2>
+
+            <div class="problem-context">
+                <h3 class="problem-context__title">
+                    Contexto del Problema
+                </h3>
+                <p><strong>Situación:</strong> En una planta química se produce amoníaco (NH₃) mediante el proceso
+                    Haber-Bosch. Necesitas calcular la concentración de equilibrio para optimizar la producción.
+                </p>
+                <p><strong>Reacción química:</strong> N₂ + 3H₂ ⇌ 2NH₃</p>
+                <p><strong>Objetivo:</strong> Encontrar la concentración molar [x] en
+                    equilibrio donde la velocidad de formación de NH₃ es igual a su descomposición.</p>
+                <p><strong>Condiciones:</strong></p>
+                <ul>
+                    <li>Temperatura: 450°C</li>
+                    <li>Presión: 200 atm</li>
+                    <li>Constante de equilibrio K = 0.5</li>
+                    <li>Concentraciones iniciales conocidas</li>
+                </ul>
+            </div>
+
+            <div class="example-interactive" id="example2">
+                <div class="example-interactive__header">
+                    <div class="example-interactive__title">Ecuación de Equilibrio Químico</div>
+                    <div class="example-interactive__subtitle">Ley de acción de masas simplificada</div>
+                </div>
+
+                <div class="example-interactive__equation">
+                    f(x) = x³ - 2x - 5 = 0
+                </div>
+
+                <p style="margin: 1rem 0;"><strong>Significado químico:</strong> Esta ecuación representa el
+                    balance entre reactivos y productos. <code>x</code> es la concentración molar de NH₃ en
+                    equilibrio (en mol/L).</p>
+
+                <div class="example-interactive__params">
+                    <div class="example-interactive__param">
+                        <span class="param-label">Ecuación:</span>
+                        <span class="param-value">x^3-2*x-5</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Rango físico válido:</span>
+                        <span class="param-value">x₀ = 1, x₁ = 3 mol/L</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Concentración esperada:</span>
+                        <span class="param-value">x ≈ 2.094 mol/L</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Tolerancia aceptable:</span>
+                        <span class="param-value">±0.001 mol/L</span>
+                    </div>
+                </div>
+
+                <div class="problem-context real-world-impact">
+                    <h3 class="problem-context__title impact__title">Impacto Industrial</h3>
+                    <p><strong>¿Por qué es crítico?</strong> La producción de amoníaco es fundamental para:</p>
+                    <ul>
+                        <li>Fertilizantes agrícolas (alimenta al 50% de la población mundial)</li>
+                        <li>Productos farmacéuticos</li>
+                        <li>Productos de limpieza</li>
+                        <li>La industria del amoníaco mueve $70 mil millones anuales</li>
+                    </ul>
+                    <p><strong>Método recomendado:</strong> Regla Falsa, porque
+                        ofrece un <strong>buen balance</strong> entre velocidad y precisión para procesos
+                        industriales donde el tiempo también cuesta dinero.</p>
+                </div>
+                <button class="button button--biseccion" onclick="ejecutarEjemplo(2, 2, 'x^3-2*x-5', 1, 3)">Regla
+                    Falsa
+                </button>
+
+                <div class="results-container" id="results-example2">
+                    <div class="results-info">
+                        <div class="results-info__title">Resultados del Análisis Químico</div>
+                        <div id="info-example2"></div>
+                    </div>
+                    <div class="interpretation-box">
+                        <div class="interpretation-box__title">Interpretación Química</div>
+                        <p>Con x ≈ 2.094 mol/L de NH₃ en equilibrio:</p>
+                        <ul>
+                            <li>Rendimiento óptimo: ~18% de conversión</li>
+                            <li>Se maximiza la producción a estas condiciones de P y T</li>
+                            <li>El reactor está operando en su punto de eficiencia máxima</li>
+                            <li>Ahorro estimado: $50,000/mes en optimización</li>
+                        </ul>
+                    </div>
+                    <div class="results-table">
+                        <div class="results-table__wrapper">
+                            <table class="results-table__table">
+                                <thead id="header-example2"></thead>
+                                <tbody id="table-example2"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ejemplo 3: MEDICINA - Farmacocinética -->
+        <section class="section-card">
+            <h2 class="section-card__title">Caso 3: Medicina - Dosis de Medicamento en Tratamiento</h2>
+            <div class="problem-context">
+                <h3 class="problem-context__title">
+                    Contexto del Problema
+                </h3>
+                <p><strong>Situación:</strong> Un paciente con arritmia cardíaca necesita una dosis precisa de un
+                    antiarrítmico. La concentración del fármaco en sangre debe mantenerse en un rango terapéutico
+                    estrecho.</p>
+                <p><strong>Objetivo:</strong> Calcular el tiempo exacto para
+                    administrar la siguiente dosis, considerando la eliminación del medicamento por metabolismo
+                    hepático y excreción renal.</p>
+                <p><strong>Parámetros clínicos:</strong></p>
+                <ul>
+                    <li>Concentración terapéutica: 1.5 - 2.5 mg/L</li>
+                    <li>Concentración tóxica: > 3.0 mg/L</li>
+                    <li>Vida media del fármaco: 6 horas</li>
+                    <li>Volumen de distribución: 2 L/kg</li>
+                </ul>
+            </div>
+
+            <div class="example-interactive" id="example3">
+                <div class="example-interactive__header">
+                    <div class="example-interactive__title">Modelo Farmacocinético</div>
+                    <div class="example-interactive__subtitle">Ecuación de eliminación exponencial</div>
+                </div>
+
+                <div class="example-interactive__equation">
+                    f(x) = 3·exp(-0.12t) - 1.5 = 0
+                </div>
+
+                <p style="margin: 1rem 0;"><strong>Significado médico:</strong> Esta ecuación representa la
+                    concentración del fármaco en sangre (C) en función del tiempo (t). Buscamos el tiempo donde
+                    C = 1.5 mg/L (límite inferior seguro para redosificar).</p>
+
+                <div class="example-interactive__params">
+                    <div class="example-interactive__param">
+                        <span class="param-label">Ecuación:</span>
+                        <span class="param-value">3*exp(-0.12*x)-1.5</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Ventana temporal:</span>
+                        <span class="param-value">t₀ = 0, t₁ = 10 horas</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Tiempo esperado:</span>
+                        <span class="param-value">t ≈ 5.78 horas</span>
+                    </div>
+                    <div class="example-interactive__param">
+                        <span class="param-label">Precisión crítica:</span>
+                        <span class="param-value">±5 minutos</span>
+                    </div>
+                </div>
+
+                <div class="problem-context real-world-impact">
+                    <h3 class="problem-context__title impact__title">Impacto en Salud</h3>
+                    <p><strong>¿Por qué es vital la precisión?</strong></p>
+                    <ul>
+                        <li>Dosis temprana → Acumulación tóxica → Paro cardíaco</li>
+                        <li>Dosis tardía → Concentración subterapéutica → Arritmia recurrente</li>
+                        <li>Timing correcto → Control efectivo sin toxicidad</li>
+                        <li>Se usa en UCI para pacientes críticos</li>
+                    </ul>
+                    <p><strong>Método recomendado:</strong> Secante, porque en
+                        emergencias médicas la <strong>velocidad es crucial</strong>. El médico necesita la
+                        respuesta en segundos para tomar decisiones rápidas.</p>
+                </div>
+                <button class="button button--biseccion" onclick="ejecutarEjemplo(3, 3, '3*exp(-0.12*x)-1.5', 0, 10)">
+                    Secante
+                </button>
+
+                <div class="results-container" id="results-example3">
+                    <div class="results-info">
+                        <h3 class="results-info__title">Resultados del Análisis Farmacocinético</h3>
+                        <div id="info-example3"></div>
+                    </div>
+                    <div class="interpretation-box">
+                        <div class="interpretation-box__title">Interpretación Clínica</div>
+                        <p>Con t ≈ 5.78 horas (5h 47min):</p>
+                        <ul>
+                            <li><strong>Protocolo de administración:</strong> Redosificar cada 6 horas</li>
+                            <li>Concentración se mantendrá en rango terapéutico (1.5-2.5 mg/L)</li>
+                            <li>Margen de seguridad: 13 minutos antes de nivel subterapéutico</li>
+                            <li>Compatible con turnos de enfermería estándar</li>
+                        </ul>
+                    </div>
+                    <div class="results-table">
+                        <div class="results-table__wrapper">
+                            <table class="results-table__table">
+                                <thead id="header-example3"></thead>
+                                <tbody id="table-example3"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Resumen Final -->
+        <section class="section-card">
+            <h2 class="section-card__title">Lecciones Aprendidas</h2>
+            <div class="problem-context">
+                <h3 class="problem-context__title">
+                    ¿Qué hemos aprendido?
+                </h3>
+                <p><strong>Los métodos numéricos no son solo matemáticas abstractas:</strong></p>
+                <ul>
+                    <li><strong>Ingeniería:</strong> Salvan vidas asegurando estructuras seguras</li>
+                    <li><strong>Química:</strong> Optimizan procesos que alimentan al mundo</li>
+                    <li><strong>Medicina:</strong> Permiten tratamientos precisos y personalizados</li>
+                    <li><strong>Economía:</strong> Ayudan a empresas a sobrevivir y crecer</li>
+                </ul>
+            </div>
+            <div class="example-interactive title-section">
+                <h3 class="example-interactive__title">Ahora que conoces las aplicaciones reales, prueba resolver tus
+                    propios problemas</h3>
+                <a href="{{ url_for('home') }}" class="button" style="display: inline-block; text-decoration: none;">
+                    Ir a la Calculadora
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container">
+            <p class="footer__title">
+                Programado por Lenny Adrián Elías Sánchez
+            </p>
+            <p class="footer__subtitle">Métodos numéricos</p>
+            <p class="footer__copyright">Copyright 2025</p>
+        </div>
+    </footer>
+
+    <script src="../static/js/controller.js" type="text/javascript"></script>
+    <script src="../static/js/examples.js" type="text/javascript"></script>
+</body>
+
+</html>
