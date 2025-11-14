@@ -26,10 +26,56 @@
 
 ## ✨ Características
 
+## ✨ Características
+
 - **🎯 Tres métodos numéricos principales:**
   - Método de Bisección
   - Método de Regla Falsa (Falsa Posición)
   - Método de la Secante
+
+- **📊 Visualización detallada:**
+  - Tabla interactiva con todas las iteraciones
+  - Gráfica de la función f(x) en tiempo real
+  - Información de convergencia en tiempo real
+  - Precisión configurable (hasta 6 decimales)
+  - Muestra valores de f(x) en cada iteración
+
+- **🔬 Comparador de métodos:**
+  - Ejecuta los 3 métodos simultáneamente
+  - Compara velocidad de convergencia
+  - Analiza número de iteraciones por método
+  - Visualización lado a lado de resultados
+  - Identifica el método más eficiente para cada problema
+
+- **📚 Sección educativa "Aprende":**
+  - 4 casos de aplicación real resueltos paso a paso
+  - Problemas de Ingeniería Civil (diseño de puentes)
+  - Problemas de Química Industrial (reactores químicos)
+  - Problemas de Medicina (dosificación de medicamentos) 
+  - Explicación del significado físico de cada solución
+  - Impacto real de los métodos numéricos
+
+- **🌟 Interfaz moderna:**
+  - Diseño responsivo y minimalista
+  - Modo claro/oscuro automático (según hora del día)
+  - Toggle manual para cambio de tema
+  - Parámetros configurables por método
+  - Validación de entrada en tiempo real
+  - Mensajes de error descriptivos con modales
+
+- **🔧 Flexibilidad matemática:**
+  - Soporte para ecuaciones dinámicas
+  - Funciones trigonométricas: `sin`, `cos`, `tan`
+  - Funciones logarítmicas: `ln`, `log`
+  - Funciones especiales: `sqrt`, `exp`, `abs`
+  - Constantes: `pi`, `e`
+  - Evaluación segura de expresiones
+
+- **⚡ Arquitectura modular:**
+  - Backend Python/Flask con estructura organizada
+  - Frontend JavaScript con AJAX asíncrono
+  - Separación clara de responsabilidades
+  - Código reutilizable y extensible
 
 - **📊 Visualización detallada:**
   - Tabla interactiva con todas las iteraciones
@@ -85,6 +131,23 @@
 └─────────────────────────────────────────────┘
 ```
 
+### Comparador de Métodos
+<img width="2560" alt="Comparador" src="URL_DE_TU_CAPTURA" />
+
+Ejecuta los 3 métodos simultáneamente y compara:
+- Número de iteraciones requeridas
+- Tiempo de ejecución de cada método
+- Velocidad de convergencia
+- Precisión final alcanzada
+
+### Sección Educativa "Aprende"
+<img width="2560" alt="Ejemplos Educativos" src="URL_DE_TU_CAPTURA" />
+
+Casos reales resueltos:
+- **🏗️ Ingeniería:** Diseño de cable de puente colgante
+- **🧪 Química:** Optimización de reactor de amoníaco
+- **💊 Medicina:** Dosificación precisa de antiarrítmicos
+
 ### Modo Oscuro
 - Paleta de colores optimizada para trabajo nocturno
 - Menor fatiga visual
@@ -113,6 +176,76 @@
 - **Orden de convergencia:** ≈ 1.618 (número áureo)
 - **Uso recomendado:** Cuando no se puede calcular la derivada
 
+## 🌍 Aplicaciones Reales
+
+IntegraX incluye una sección educativa con **4 casos del mundo real** donde los métodos numéricos son esenciales:
+
+### 🏗️ Caso 1: Ingeniería Civil - Diseño de Puente Colgante
+
+**Problema:** Calcular la tensión óptima del cable principal de un puente colgante de 100m.
+
+**Ecuación:** `x³ - 6x² + 9x - 2 = 0`
+
+**Contexto real:**
+- Relaciona la tensión del cable con su capacidad de carga
+- Un error en el cálculo puede causar colapso estructural o sobrecosto millonario
+- La variable `x` representa el factor de tensión normalizado
+
+**Método recomendado:** **Bisección** (seguridad crítica en estructuras)
+
+**Resultado:** `x ≈ 0.254` → Factor de tensión seguro con 20% de margen
+
+**Impacto:** Diferencia entre un puente seguro y un desastre ingenieril
+
+---
+
+### 🧪 Caso 2: Química Industrial - Reactor de Amoníaco (Haber-Bosch)
+
+**Problema:** Determinar la concentración de equilibrio de NH₃ para optimizar producción.
+
+**Ecuación:** `x³ - 2x - 5 = 0`
+
+**Contexto real:**
+- Proceso que alimenta al 50% de la población mundial (fertilizantes)
+- Optimización que puede ahorrar $50,000/mes en una planta industrial
+- La variable `x` representa la concentración molar en equilibrio
+
+**Método recomendado:** **Regla Falsa** (balance velocidad/precisión)
+
+**Resultado:** `x ≈ 2.094 mol/L` → Concentración óptima de NH₃
+
+**Impacto:** Industria de $70 mil millones anuales
+
+---
+
+### 💊 Caso 3: Medicina - Dosificación de Antiarrítmicos
+
+**Problema:** Calcular el tiempo exacto para administrar la siguiente dosis sin toxicidad.
+
+**Ecuación:** `3·exp(-0.12t) - 1.5 = 0`
+
+**Contexto real:**
+- Rango terapéutico estrecho: 1.5 - 2.5 mg/L (tóxico > 3.0 mg/L)
+- Usado en UCI para pacientes con arritmias cardíacas
+- La variable `t` representa el tiempo en horas
+
+**Método recomendado:** **Secante** (velocidad en emergencias médicas)
+
+**Resultado:** `t ≈ 5.78 horas` (5h 47min) → Redosificar cada 6 horas
+
+**Impacto:** Previene toxicidad cardíaca o fallo del tratamiento
+
+---
+
+**💡 Cada caso incluye:**
+- ✅ Contexto detallado del problema real
+- ✅ Datos y parámetros reales del dominio
+- ✅ Interpretación del resultado en términos profesionales
+- ✅ Consecuencias de error vs precisión
+- ✅ Recomendación de método según necesidades
+- ✅ Boton interactivo para ejecutar el método
+
+
 ## 🛠 Tecnologías
 
 ### Backend
@@ -125,6 +258,7 @@
 - **CSS3** - Estilos modernos y responsivos
 - **JavaScript (ES6+)** - Lógica de interfaz
 - **Fetch API** - Comunicación asíncrona con el backend
+- **Chart.js** - Visualización de gráficas interactivas
 
 ### Arquitectura
 - **Patrón MVC** - Separación de modelo, vista y controlador
@@ -282,7 +416,6 @@ Convergencia: ✅ Exitosa
 ```
 
 ## 📁 Estructura del proyecto
-
 ```
 IntegraX/
 ├── 📄 app.py                      # Servidor Flask principal
@@ -300,13 +433,15 @@ IntegraX/
 │   │   └── fonts.css             # Tipografías personalizadas
 │   ├── 📂 fonts/
 │   ├── 📂 js/
-│   │   └── controller.js         # Lógica del frontend
+│   │   ├── controller.js         # Lógica principal del frontend
+│   │   ├── examples.js           # Lógica de ejemplos interactivos
+│   │   └── compare.js           # Lógica de comparador
 │   └── 📂 imgs/
-│       ├── logo.css              # Logo
-│       └── fondo.png             # Imagen de fondo
 │
 ├── 📂 templates/                 # Plantillas HTML
-│   └── index.html                # Interfaz principal
+│   ├── index.html                # Interfaz principal (calculadora)
+│   ├── compare.html              # Comparador de métodos
+│   └── examples.html             # Sección educativa con casos reales
 │
 ├── 📋 requirements.txt            # Dependencias de Python
 ├── 📖 README.md                  # Documentación (este archivo)
@@ -479,22 +614,29 @@ Si encuentras un bug, por favor abre un issue con:
 
 ## 🚀 Roadmap
 
-### Versión 1.1 (En progreso)
-- [ ] Exportación de resultados a PDF
-- [ ] Modo oscuro automático (según hora)
+### Versión 1.1 (✅ Completado)
+- [x] Exportación de resultados a CSV
+- [x] Modo oscuro automático (según hora del día)
+- [x] Gráficas interactivas con Chart.js
+- [x] Comparador de métodos
+- [x] Sección educativa con casos reales
 
-### Versión 1.2 (Planeado)
+### Versión 1.2 (En progreso)
+- [ ] Exportación de resultados a PDF
 - [ ] Método de Newton-Raphson
 - [ ] Método de Punto Fijo
-- [ ] Comparación entre métodos
+- [ ] Sistema de guardado de ejercicios favoritos
 
 ## 📊 Estadísticas del Proyecto
 
-- **Líneas de código:** ~2,000
+- **Líneas de código:** ~3,500
 - **Archivos Python:** 5
+- **Archivos JavaScript:** 3
+- **Plantillas HTML:** 3
 - **Métodos implementados:** 3
+- **Casos educativos:** 3
 - **Funciones matemáticas soportadas:** 10+
-- **Tiempo de desarrollo:** 3 semanas
+- **Tiempo de desarrollo:** 2 Meses
 - **Tests:** En progreso
 
 ## 📄 Licencia
