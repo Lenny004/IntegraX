@@ -9,22 +9,10 @@
  * @param {number} b - Valor inicial x1
  */
 async function ejecutarEjemplo(ejemploNum, metodo, ecuacion, a, b) {
-    const loadingId = `loading-example${ejemploNum}`;
-    const resultsId = `results-example${ejemploNum}`;
     const headerId = `header-example${ejemploNum}`;
     const tableId = `table-example${ejemploNum}`;
     const infoId = `info-example${ejemploNum}`;
-
-    // Mostrar loading
-    const loadingElement = document.getElementById(loadingId);
-    const resultsElement = document.getElementById(resultsId);
-
-    if (loadingElement) {
-        loadingElement.classList.add('active');
-    }
-    if (resultsElement) {
-        resultsElement.classList.remove('active');
-    }
+    const resultsElement = document.getElementById(`results-example${ejemploNum}`);
 
     try {
         // Preparar datos para el backend
@@ -54,14 +42,8 @@ async function ejecutarEjemplo(ejemploNum, metodo, ecuacion, a, b) {
         }
 
         if (resultado.success) {
-            // Ocultar loading
-            if (loadingElement) {
-                loadingElement.classList.remove('active');
-            }
-
             // Generar tabla de resultados
             generarTablaEjemplo(
-                ejemploNum,
                 metodo,
                 resultado.resultados,
                 resultado.time,
@@ -73,10 +55,8 @@ async function ejecutarEjemplo(ejemploNum, metodo, ecuacion, a, b) {
             // Mostrar resultados
             if (resultsElement) {
                 resultsElement.classList.add('active');
+                resultsElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-
-            // Scroll suave hacia los resultados
-            resultsElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
         } else {
             throw new Error(resultado.error || 'Error desconocido');
@@ -84,12 +64,6 @@ async function ejecutarEjemplo(ejemploNum, metodo, ecuacion, a, b) {
 
     } catch (error) {
         console.error('Error:', error);
-        
-        // Ocultar loading
-        if (loadingElement) {
-            loadingElement.classList.remove('active');
-        }
-
         // Mostrar error con el modal
         if (typeof mostrarError === 'function') {
             mostrarError(`Error al ejecutar el ejemplo: ${error.message}`);
@@ -205,7 +179,6 @@ function obtenerNombreMetodo(metodo) {
 
 /**
  * Genera la tabla completa con resultados
- * @param {number} ejemploNum - Número del ejemplo
  * @param {number} metodo - Método usado
  * @param {Array} resultados - Resultados del backend
  * @param {number} tiempo - Tiempo de ejecución
@@ -213,7 +186,7 @@ function obtenerNombreMetodo(metodo) {
  * @param {string} tableId - ID del elemento tabla
  * @param {string} infoId - ID del elemento info
  */
-function generarTablaEjemplo(ejemploNum, metodo, resultados, tiempo, headerId, tableId, infoId) {
+function generarTablaEjemplo(metodo, resultados, tiempo, headerId, tableId, infoId) {
     // Generar header
     const headerElement = document.getElementById(headerId);
     if (headerElement) {

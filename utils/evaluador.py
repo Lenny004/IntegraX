@@ -1,5 +1,6 @@
 # utils/evaluador.py
 import math
+import re
 
 
 def evaluar_funcion(ecuacion, x):
@@ -15,32 +16,36 @@ def evaluar_funcion(ecuacion, x):
         ValueError: Si hay error al evaluar la función
     """
     try:
-        # Preparar la ecuación para evaluación
         ecuacion_prep = ecuacion.replace('^', '**')
-        ecuacion_prep = ecuacion_prep.replace('x', f'({x})')
+        ecuacion_prep = re.sub(r'\bx\b', f'({x})', ecuacion_prep)
 
-        # Reemplazar funciones matemáticas comunes
-        ecuacion_prep = ecuacion_prep.replace('sin', 'math.sin')
-        ecuacion_prep = ecuacion_prep.replace('cos', 'math.cos')
-        ecuacion_prep = ecuacion_prep.replace('tan', 'math.tan')
-        ecuacion_prep = ecuacion_prep.replace('asin', 'math.asin')
-        ecuacion_prep = ecuacion_prep.replace('acos', 'math.acos')
-        ecuacion_prep = ecuacion_prep.replace('atan', 'math.atan')
-        ecuacion_prep = ecuacion_prep.replace('sinh', 'math.sinh')
-        ecuacion_prep = ecuacion_prep.replace('cosh', 'math.cosh')
-        ecuacion_prep = ecuacion_prep.replace('tanh', 'math.tanh')
-        ecuacion_prep = ecuacion_prep.replace('log10', 'math.log10')
-        ecuacion_prep = ecuacion_prep.replace('log2', 'math.log2')
-        ecuacion_prep = ecuacion_prep.replace('log', 'math.log')
-        ecuacion_prep = ecuacion_prep.replace('ln', 'math.log')
-        ecuacion_prep = ecuacion_prep.replace('sqrt', 'math.sqrt')
-        ecuacion_prep = ecuacion_prep.replace('exp', 'math.exp')
-        ecuacion_prep = ecuacion_prep.replace('fabs', 'math.fabs')
-        ecuacion_prep = ecuacion_prep.replace('abs', 'abs')
+        # Funciones matemáticas (con límites de palabra)
+        funciones = {
+            r'\bsin\b': 'math.sin',
+            r'\bcos\b': 'math.cos',
+            r'\btan\b': 'math.tan',
+            r'\basin\b': 'math.asin',
+            r'\bacos\b': 'math.acos',
+            r'\batan\b': 'math.atan',
+            r'\bsinh\b': 'math.sinh',
+            r'\bcosh\b': 'math.cosh',
+            r'\btanh\b': 'math.tanh',
+            r'\blog10\b': 'math.log10',
+            r'\blog2\b': 'math.log2',
+            r'\blog\b': 'math.log',
+            r'\bln\b': 'math.log',
+            r'\bsqrt\b': 'math.sqrt',
+            r'\bexp\b': 'math.exp',
+            r'\bfabs\b': 'math.fabs',
+            r'\babs\b': 'abs',
+        }
 
-        # Agregar soporte para constantes matemáticas
-        ecuacion_prep = ecuacion_prep.replace('pi', 'math.pi')
-        ecuacion_prep = ecuacion_prep.replace('e', 'math.e')
+        for patron, reemplazo in funciones.items():
+            ecuacion_prep = re.sub(patron, reemplazo, ecuacion_prep)
+
+        # Constantes (solo la palabra completa)
+        ecuacion_prep = re.sub(r'\bpi\b', 'math.pi', ecuacion_prep)
+        ecuacion_prep = re.sub(r'\be\b', 'math.e', ecuacion_prep)
 
         return eval(ecuacion_prep)
 
