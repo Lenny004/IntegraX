@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Métodos Numéricos</title>
-    <link rel="stylesheet" href="../static/css/styles.css">
-    <link rel="stylesheet" href="../static/css/fonts.css">
-    <link rel="icon" href="../static/imgs/logo_Integrax2.png" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='imgs/logo_Integrax2.png') }}" type="image/png">
 </head>
 
 <body class="theme theme--light" id="theme">
@@ -17,7 +17,7 @@
     <header class="header">
         <div class="header__container">
             <div class="menu-icon">
-                <img src="../static/imgs/icons/menu.png" alt="menu" class="menu">
+                <img src="{{ url_for('static', filename='imgs/icons/menu.png') }}" alt="menu" class="menu">
             </div>
             <div class="header__content">
                 <h1 class="header__title">IntegraX</h1>
@@ -50,7 +50,7 @@
     <div id="modal" class="modal">
         <div class="modal__header">
             <div class="modal__header-icon danger" id="modal-icon">
-                <img src="../static/imgs/icons/warning.png" alt="icon">
+                <img src="{{ url_for('static', filename='imgs/icons/warning.png') }}" alt="icon">
             </div>
             <h3 id="modal__header-title">Titulo</h3>
         </div>
@@ -103,7 +103,7 @@
                     <button type="button" class="keypad-num" value="e">e</button>
                     <button type="button" class="keypad-num" value="pi">π</button>
                     <button type="button" class="keypad-num" value="exp">EXP</button>
-                    <button type="button" class="keypad-delete" onclick="deleteText()"><img src="../static/imgs/icons/clear.png" alt="clear"></button>
+                    <button type="button" class="keypad-delete" onclick="deleteText()"><img src="{{ url_for('static', filename='imgs/icons/clear.png') }}" alt="clear"></button>
                 </div>
                 <div class="parameters">
                     <div class="parameters__group">
@@ -193,9 +193,9 @@
             <p class="footer__copyright">Copyright 2025</p>
         </div>
     </footer>
-    <script src="../static/js/controller.js" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/controller.js') }}" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../static/js/compare.js" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/compare.js') }}" type="text/javascript"></script>
 </body>
 
 </html>
